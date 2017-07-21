@@ -48,6 +48,7 @@
             this.Controls.Add(this.label1);
             this.Name = "Inspector";
             this.Text = "Inspector";
+            this.Load += new System.EventHandler(this.Inspector_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
