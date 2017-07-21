@@ -37,5 +37,11 @@ namespace sklad
             label1.Text = "Здравствуйте " + FIO;
             admLoad.connection.Close();
         }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            Users f = new Users();
+            f.ShowDialog();
+        }
     }
 }
