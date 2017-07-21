@@ -12,9 +12,16 @@ namespace sklad
 {
     public partial class Admin : Form
     {
-        public Admin()
+        int Uid;
+        public Admin(int _id)
         {
             InitializeComponent();
+            this.Uid = _id;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

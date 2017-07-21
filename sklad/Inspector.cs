@@ -12,9 +12,16 @@ namespace sklad
 {
     public partial class Inspector : Form
     {
-        public Inspector()
+        int Uid;
+        public Inspector(int _id)
         {
             InitializeComponent();
+            this.Uid = _id;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

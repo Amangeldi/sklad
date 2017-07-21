@@ -12,9 +12,11 @@ namespace sklad
 {
     public partial class Responsible : Form
     {
-        public Responsible()
+        int Uid;
+        public Responsible(int _id)
         {
             InitializeComponent();
+            this.Uid = _id;
         }
     }
 }
