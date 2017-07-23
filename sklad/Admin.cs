@@ -43,5 +43,11 @@ namespace sklad
             Users f = new Users();
             f.ShowDialog();
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Products f = new Products();
+            f.ShowDialog();
+        }
     }
 }
