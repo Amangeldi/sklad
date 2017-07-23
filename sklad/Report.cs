@@ -10,13 +10,18 @@ using System.Windows.Forms;
 
 namespace sklad
 {
-    public partial class Responsible : Form
+    public partial class Report : Form
     {
-        public int Uid;
-        public Responsible(int _id)
+        public Report()
         {
             InitializeComponent();
-            this.Uid = _id;
+        }
+        int responsible, product, traffic;
+        string sResponsible, sProduct, location, date, waybill;
+        float product_quantity;
+        private void Report_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

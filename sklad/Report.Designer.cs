@@ -1,6 +1,6 @@
 ﻿namespace sklad
 {
-    partial class Responsible
+    partial class Report
     {
         /// <summary>
         /// Required designer variable.
@@ -28,9 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.SuspendLayout();
+            // 
+            // Report
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Text = "Responsible";
+            this.ClientSize = new System.Drawing.Size(541, 269);
+            this.Name = "Report";
+            this.Text = "Report";
+            this.Load += new System.EventHandler(this.Report_Load);
+            this.ResumeLayout(false);
+
         }
 
         #endregion
