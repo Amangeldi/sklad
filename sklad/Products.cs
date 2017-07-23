@@ -34,7 +34,24 @@ namespace sklad
 
         private void button1_Click(object sender, EventArgs e)
         {
+            Add_product f = new Add_product();
+            f.ShowDialog();
+        }
 
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Product p = new Product();
+            bool test = p.test_id(dataGridView1.CurrentRow.Cells[0].Value.ToString());
+            if (test == true)
+            {
+                MessageBox.Show("Пользователь с таким id не существует или был удален", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                
+            }
+            else
+            {
+                p.delete(dataGridView1.CurrentRow.Cells[0].Value.ToString());
+                MessageBox.Show("Удален продукт " + dataGridView1.CurrentRow.Cells[0].Value.ToString(), "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
     }
 }
