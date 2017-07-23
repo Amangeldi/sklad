@@ -44,13 +44,29 @@ namespace sklad
             bool test = p.test_id(dataGridView1.CurrentRow.Cells[0].Value.ToString());
             if (test == true)
             {
-                MessageBox.Show("Пользователь с таким id не существует или был удален", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Материал с таким id не существует или был удален", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 
             }
             else
             {
                 p.delete(dataGridView1.CurrentRow.Cells[0].Value.ToString());
                 MessageBox.Show("Удален продукт " + dataGridView1.CurrentRow.Cells[0].Value.ToString(), "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            Product p = new Product();
+            bool test = p.test_id(dataGridView1.CurrentRow.Cells[0].Value.ToString());
+            if (test == true)
+            {
+                MessageBox.Show("Материал с таким id не существует или был удален", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+            }
+            else
+            {
+                Edit_product f = new Edit_product(Convert.ToInt32(dataGridView1.CurrentRow.Cells[0].Value));
+                f.ShowDialog();
             }
         }
     }

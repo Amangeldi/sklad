@@ -21,12 +21,13 @@ namespace sklad
         private void button2_Click(object sender, EventArgs e)
         {
             Product p = new Product();
-            p.add(textBox1.Text, textBox2.Text,float.Parse(textBox3.Text), float.Parse(textBox4.Text), Convert.ToInt32(comboBox1.SelectedValue), textBox5.Text, "", dateTimePicker1.Value.ToString(), dateTimePicker2.Value.ToString());
+            p.add(textBox1.Text, textBox2.Text,float.Parse(textBox3.Text), float.Parse(textBox4.Text), Convert.ToInt32(comboBox1.SelectedValue), textBox5.Text, "", dateTimePicker1.Value.ToString(), dateTimePicker2.Value.ToString(), textBox6.Text);
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            this.Text = comboBox1.SelectedValue + " " + comboBox1.Text;
+            Unit f = new Unit();
+            f.ShowDialog();
         }
 
         private void Add_product_Load(object sender, EventArgs e)
