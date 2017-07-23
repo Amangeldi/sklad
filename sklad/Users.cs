@@ -30,9 +30,15 @@ namespace sklad
             adapter.Fill(dataset);
             dataGridView1.DataSource = dataset.Tables[0];
             adapter.Update(dataset);
+            this.Text += "1";
         }
 
         private void button1_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
         {
             Add_user f = new Add_user();
             f.ShowDialog();
