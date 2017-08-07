@@ -169,6 +169,9 @@
     <EmbeddedResource Include="Responsibility.resx">
       <DependentUpon>Responsibility.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Responsible.resx">
+      <DependentUpon>Responsible.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Unit.resx">
       <DependentUpon>Unit.cs</DependentUpon>
     </EmbeddedResource>

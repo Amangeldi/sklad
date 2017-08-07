@@ -18,5 +18,10 @@ namespace sklad
             InitializeComponent();
             this.Uid = _id;
         }
+
+        private void Responsible_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
