@@ -30,6 +30,7 @@ namespace sklad
             productLoad.connection.Open();
             unitLoad.connection.Open();
             userLoad.connection.Open();
+            //Открыли все коннекты
             SqlCommand commandResponsible = new SqlCommand("SELECT * FROM dbo.Responsibility", reportLoad.connection);
             SqlDataReader readerResponsible = commandResponsible.ExecuteReader();
             SqlCommand commandProduct;
@@ -38,6 +39,7 @@ namespace sklad
             SqlDataReader readerUnit;
             SqlCommand commandUser;
             SqlDataReader readerUser;
+            //Создали команды и датаридеры
             var columnPName = new DataGridViewColumn();
             columnPName.HeaderText = "Название";
             columnPName.Name = "productName";
@@ -56,7 +58,7 @@ namespace sklad
             dataGridView1.Columns.Add(columnPName);
             dataGridView1.Columns.Add(columnPUnit);
             dataGridView1.Columns.Add(columnPPrice);
-
+            //Добавили постоянные колонки
 
             while (readerResponsible.Read())
             {
@@ -95,7 +97,7 @@ namespace sklad
             productLoad.connection.Close();
             unitLoad.connection.Close();
             userLoad.connection.Close();
-
+            //Закрыли коннекты
             
         }
     }
