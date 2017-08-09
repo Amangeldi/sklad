@@ -46,6 +46,8 @@ namespace sklad
         private void button1_Click(object sender, EventArgs e)
         {
             ConnOpen add_responsible = new ConnOpen();
+            ConnOpen update_product = new ConnOpen();
+            ConnOpen update_user = new ConnOpen();
             add_responsible.connection.Open();
             string sql = string.Format("Insert Into Responsibility" +
                        "(responsible, location, product, product_quantity, date, waybill, traffic) Values(@responsible, @location, @product, @product_quantity, @date, @waybill, @traffic)");
@@ -61,6 +63,34 @@ namespace sklad
                 cmd.ExecuteNonQuery();
             }
             add_responsible.connection.Close();
+            update_product.connection.Open();
+            string sqlProd = string.Format("Update Product Set product_flag = '1' WHERE product_id = '" + comboBox2.SelectedValue.ToString()+"' " );
+            using (SqlCommand cmd = new SqlCommand(sqlProd, update_product.connection))
+            {
+                cmd.ExecuteNonQuery();
+            }
+            update_product.connection.Close();
+            
+            update_user.connection.Open();
+            string sqlUser = "";
+
+            if (comboBox3.SelectedIndex.ToString() == "0")
+            {
+                sqlUser = string.Format("Update Users Set prih = '1' WHERE user_id = '" + comboBox1.SelectedValue.ToString()+"'");
+                using (SqlCommand cmd = new SqlCommand(sqlUser, update_user.connection))
+                {
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            else if(comboBox3.SelectedIndex.ToString() == "1")
+            {
+                sqlUser = string.Format("Update Users Set rash = '1' WHERE user_id = '" + comboBox1.SelectedValue.ToString() + "'");
+                using (SqlCommand cmd = new SqlCommand(sqlUser, update_user.connection))
+                {
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            update_user.connection.Close();
         }
     }
 }

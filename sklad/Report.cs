@@ -55,7 +55,7 @@ namespace sklad
             columnPUnit.CellTemplate = new DataGridViewTextBoxCell();
 
             var columnPPrice = new DataGridViewColumn();
-            columnPPrice.HeaderText = "Цена";
+            columnPPrice.HeaderText = "Цена за ед.";
             columnPPrice.Name = "productPrice";
             columnPPrice.CellTemplate = new DataGridViewTextBoxCell();
 
