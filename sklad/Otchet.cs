@@ -65,7 +65,7 @@ namespace sklad
                 }
                 readerUser.Close();
                 report = "Материал " + sProduct+" "+sTraffic+sResponsible+" со склада "+location+" "+ date+" "+dateChas+" часов "+dateMin+" минут на основании накладной номер " +waybill;
-                label1.Text += report+"/n";
+                label1.Text += report+"\n";
             }
             proLoad.connection.Close();
             resLoad.connection.Close();
