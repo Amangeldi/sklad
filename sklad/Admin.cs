@@ -49,5 +49,17 @@ namespace sklad
             Products f = new Products();
             f.ShowDialog();
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            Responsibility f = new Responsibility();
+            f.ShowDialog();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            Report f1 = new Report();
+            f1.ShowDialog();
+        }
     }
 }

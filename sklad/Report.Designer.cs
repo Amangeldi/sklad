@@ -1,6 +1,6 @@
 ﻿namespace sklad
 {
-    partial class Responsible
+    partial class Report
     {
         /// <summary>
         /// Required designer variable.
@@ -28,20 +28,34 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
-            // Responsible
+            // dataGridView1
+            // 
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Location = new System.Drawing.Point(12, 12);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.Size = new System.Drawing.Size(852, 315);
+            this.dataGridView1.TabIndex = 0;
+            // 
+            // Report
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(560, 269);
-            this.Name = "Responsible";
-            this.Text = "Responsible";
-            this.Load += new System.EventHandler(this.Responsible_Load);
+            this.ClientSize = new System.Drawing.Size(876, 387);
+            this.Controls.Add(this.dataGridView1);
+            this.Name = "Report";
+            this.Text = "Report";
+            this.Load += new System.EventHandler(this.Report_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
+
+        private System.Windows.Forms.DataGridView dataGridView1;
     }
 }

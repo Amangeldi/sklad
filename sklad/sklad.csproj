@@ -98,6 +98,18 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Report.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report.Designer.cs">
+      <DependentUpon>Report.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Responsibility.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Responsibility.Designer.cs">
+      <DependentUpon>Responsibility.cs</DependentUpon>
+    </Compile>
     <Compile Include="Responsible.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -151,6 +163,12 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Report.resx">
+      <DependentUpon>Report.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Responsibility.resx">
+      <DependentUpon>Responsibility.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Responsible.resx">
       <DependentUpon>Responsible.cs</DependentUpon>
     </EmbeddedResource>
