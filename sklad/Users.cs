@@ -37,5 +37,10 @@ namespace sklad
             Add_user f = new Add_user();
             f.ShowDialog();
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
