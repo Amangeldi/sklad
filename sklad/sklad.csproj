@@ -136,6 +136,12 @@
     <Compile Include="Users.Designer.cs">
       <DependentUpon>Users.cs</DependentUpon>
     </Compile>
+    <Compile Include="Waybill.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Waybill.Designer.cs">
+      <DependentUpon>Waybill.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Add_product.resx">
       <DependentUpon>Add_product.cs</DependentUpon>
     </EmbeddedResource>
@@ -186,6 +192,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Users.resx">
       <DependentUpon>Users.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Waybill.resx">
+      <DependentUpon>Waybill.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
