@@ -136,6 +136,7 @@ namespace sklad
                 pValue = 0;
                 rValue = 0;
             }
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             //while (readerResponsible.Read())
             //{
             //    product = Convert.ToInt32(readerResponsible["product"]);
