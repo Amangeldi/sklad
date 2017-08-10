@@ -18,10 +18,19 @@ namespace sklad
             InitializeComponent();
         }
         int responsible, product, traffic, unit;
-        string sResponsible, sProduct, sUnit, location, date, waybill;
-        float product_quantity, price, rProduct_quantity, pValue = 0, rValue = 0, sum, sPrice;
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Otchet f1 = new Otchet(dataGridView1.CurrentRow.Cells[0].Value.ToString());
+            f1.ShowDialog();
+
+        }
+
         private void Report_Load(object sender, EventArgs e)
         {
+
+            string sResponsible, sProduct, sUnit, location, date, waybill;
+            float product_quantity, price, rProduct_quantity, pValue = 0, rValue = 0, sum, sPrice;
             ConnOpen reportLoad = new ConnOpen();
             ConnOpen productLoad = new ConnOpen();
             ConnOpen unitLoad = new ConnOpen();
