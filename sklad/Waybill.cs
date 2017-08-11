@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Microsoft.Office.Interop.Excel;
 
 namespace sklad
 {
@@ -25,6 +26,9 @@ namespace sklad
 
         private void Waybill_Load(object sender, EventArgs e)
         {
+            Microsoft.Office.Interop.Excel.Application ExcelApp = new Microsoft.Office.Interop.Excel.Application();
+            ExcelApp.Application.Workbooks.Add(Type.Missing);
+
             var columnNo = new DataGridViewColumn();
             columnNo.HeaderText = "No";
             columnNo.Name = "nomer";
