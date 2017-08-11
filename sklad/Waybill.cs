@@ -16,6 +16,23 @@ namespace sklad
     {
         int responsible, product, unit;
         string waybill, user, traffic, product_name, unit_name, date;
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Microsoft.Office.Interop.Excel.Application ExcelApp = new Microsoft.Office.Interop.Excel.Application();
+            ExcelApp.Application.Workbooks.Add(Type.Missing);
+            ExcelApp.Columns.ColumnWidth = 15;
+
+            ExcelApp.Cells[1, 1] = "№п/п";
+            ExcelApp.Cells[1, 2] = "Число";
+            ExcelApp.Cells[1, 3] = "Название";
+            ExcelApp.Cells[1, 4] = "Количество";
+            ExcelApp.Cells[1, 5] = "Цена ОПТ";
+            ExcelApp.Cells[1, 6] = "Цена Розница";
+            ExcelApp.Cells[1, 7] = "Сумма";
+            ExcelApp.Visible = true;
+        }
+
         float product_quantity, price, summa;
         public Waybill(string _waybill, string _traffic)
         {
@@ -26,8 +43,7 @@ namespace sklad
 
         private void Waybill_Load(object sender, EventArgs e)
         {
-            Microsoft.Office.Interop.Excel.Application ExcelApp = new Microsoft.Office.Interop.Excel.Application();
-            ExcelApp.Application.Workbooks.Add(Type.Missing);
+            
 
             var columnNo = new DataGridViewColumn();
             columnNo.HeaderText = "No";
