@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Microsoft.Office.Interop.Excel;
+using Excel = Microsoft.Office.Interop.Excel;
 
 namespace sklad
 {
@@ -18,18 +18,17 @@ namespace sklad
         string waybill, user, traffic, product_name, unit_name, date;
 
         private void button1_Click(object sender, EventArgs e)
-        {
-            Microsoft.Office.Interop.Excel.Application ExcelApp = new Microsoft.Office.Interop.Excel.Application();
+        {            
+            Excel.Application ExcelApp = new Excel.Application();
             ExcelApp.Application.Workbooks.Add(Type.Missing);
             ExcelApp.Columns.ColumnWidth = 15;
-
-            ExcelApp.Cells[1, 1] = "№п/п";
-            ExcelApp.Cells[1, 2] = "Число";
-            ExcelApp.Cells[1, 3] = "Название";
-            ExcelApp.Cells[1, 4] = "Количество";
-            ExcelApp.Cells[1, 5] = "Цена ОПТ";
-            ExcelApp.Cells[1, 6] = "Цена Розница";
-            ExcelApp.Cells[1, 7] = "Сумма";
+            Excel.Worksheet workSheet = (Excel.Worksheet)ExcelApp.ActiveSheet;
+            Excel.Range range = workSheet.Range["B1", System.Type.Missing];
+            range.EntireColumn.ColumnWidth = 44;
+            workSheet.get_Range("A1:B1").Merge();
+            ExcelApp.Cells[1, 1] = "'LGÇ' Müdirliginiň Guýulary düýpli we ýerasty bejeriji bölegi";
+            ExcelApp.Cells[1, 6] = "A-5 görnüş";
+            
             ExcelApp.Visible = true;
         }
 
@@ -56,8 +55,8 @@ namespace sklad
             columnPName.CellTemplate = new DataGridViewTextBoxCell();
 
             var columnUnit = new DataGridViewColumn();
-            columnUnit.HeaderText = "Maddy gymmatlygyn ady";
-            columnUnit.Name = "productName";
+            columnUnit.HeaderText = "Olceg birligin ady";
+            columnUnit.Name = "unitName";
             columnUnit.CellTemplate = new DataGridViewTextBoxCell();
 
             var columnMT = new DataGridViewColumn();
