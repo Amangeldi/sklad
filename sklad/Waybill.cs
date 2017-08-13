@@ -14,7 +14,7 @@ namespace sklad
 {
     public partial class Waybill : Form
     {
-        int responsible, product, unit;
+        int responsible, product, unit, no;
         string waybill, user, traffic, product_name, unit_name, date;
 
         private void button1_Click(object sender, EventArgs e)
@@ -54,7 +54,17 @@ namespace sklad
             ExcelApp.Cells[3, 6] = "2011-nji ýylyň 19 awgustyndaky";
             ExcelApp.Cells[4, 1] = "Düzümindäki bölüm";
             ExcelApp.Cells[4, 6] = "82 belgili buýrugy bilen tassyklanyldy";
-            ExcelApp.Cells[6, 3] = "Talapnama - ýan haty №";
+            ExcelApp.Cells[6, 3] = "Talapnama - ýan haty № "+waybill;
+            if (traffic == "0")
+            {
+                ExcelApp.Cells[8, 2] = "Аннаклычев Хакнепес Амангелдиевич";
+                ExcelApp.Cells[10, 2] = user;
+            }
+            else if (traffic == "1")
+            {
+                ExcelApp.Cells[8, 2] = user;
+                ExcelApp.Cells[10, 2] = "Аннаклычев Хакнепес Амангелдиевич";
+            }
             ExcelApp.Cells[8, 1] = "Kimiň üsti bilen ";
             ExcelApp.Cells[9, 2] = "harydy göýberijiniň  ady familiýasy we doly resmi salgysy ";
             ExcelApp.Cells[10, 1] = "Talap eden";
@@ -80,6 +90,25 @@ namespace sklad
                     ExcelApp.Cells[j + 14, i + 1] = dg;
                 }
             }
+            workSheet.get_Range("A1:B1").Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlContinuous;
+            workSheet.get_Range("A3:B3").Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlContinuous;
+            workSheet.get_Range("B8:G8").Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlContinuous;
+            workSheet.get_Range("B10:D10").Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlContinuous;
+            workSheet.get_Range("F10:G10").Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlContinuous;
+            workSheet.get_Range("A12:G13").Borders[Excel.XlBordersIndex.xlEdgeLeft].LineStyle = Excel.XlLineStyle.xlContinuous;
+            workSheet.get_Range("A12:G13").Borders[Excel.XlBordersIndex.xlEdgeTop].LineStyle = Excel.XlLineStyle.xlContinuous;
+            workSheet.get_Range("A12:G13").Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlContinuous;
+            workSheet.get_Range("A12:G13").Borders[Excel.XlBordersIndex.xlEdgeRight].LineStyle = Excel.XlLineStyle.xlContinuous;
+            workSheet.get_Range("A12:G13").Borders[Excel.XlBordersIndex.xlInsideVertical].LineStyle = Excel.XlLineStyle.xlContinuous;
+            workSheet.get_Range("A12:G13").Borders[Excel.XlBordersIndex.xlInsideHorizontal].LineStyle = Excel.XlLineStyle.xlContinuous;
+            //-------
+            workSheet.get_Range("A14:G22").Borders[Excel.XlBordersIndex.xlEdgeLeft].LineStyle = Excel.XlLineStyle.xlContinuous;
+            workSheet.get_Range("A14:G22").Borders[Excel.XlBordersIndex.xlEdgeTop].LineStyle = Excel.XlLineStyle.xlContinuous;
+            workSheet.get_Range("A14:G22").Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlContinuous;
+            workSheet.get_Range("A14:G22").Borders[Excel.XlBordersIndex.xlEdgeRight].LineStyle = Excel.XlLineStyle.xlContinuous;
+            workSheet.get_Range("A14:G22").Borders[Excel.XlBordersIndex.xlInsideVertical].LineStyle = Excel.XlLineStyle.xlContinuous;
+            workSheet.get_Range("A14:G22").Borders[Excel.XlBordersIndex.xlInsideHorizontal].LineStyle = Excel.XlLineStyle.xlContinuous;
+
             ExcelApp.Visible = true;
         }
 
