@@ -102,7 +102,6 @@ namespace sklad
             //-------
             ExcelApp.Cells[25, 1] = "Göýbermäge rugsat berdim.Başlyk __________________________";
             ExcelApp.Cells[25, 5] = "Baş buhgalter";
-            ExcelApp.Cells[25, 5] = "                                                     wezipesi                                   goly           ";
             ExcelApp.Cells[26, 3] = "ady familiýasy";
             ExcelApp.Cells[26, 5] = "   wezipesi                             goly                         ady familiýasy";
             ExcelApp.Cells[27, 1] = "Göýberdim:  __________________      __________________________";
