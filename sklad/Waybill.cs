@@ -24,7 +24,19 @@ namespace sklad
             ExcelApp.Columns.ColumnWidth = 15;
             Excel.Worksheet workSheet = (Excel.Worksheet)ExcelApp.ActiveSheet;
             Excel.Range range = workSheet.Range["B1", System.Type.Missing];
-            range.EntireColumn.ColumnWidth = 44;
+            range = workSheet.Range["A1", System.Type.Missing];
+            range.EntireColumn.ColumnWidth = 11;
+            range = workSheet.Range["B1", System.Type.Missing];
+            range.EntireColumn.ColumnWidth = 37;
+            range = workSheet.Range["C1", System.Type.Missing];
+            range.EntireColumn.ColumnWidth = 8;
+            range = workSheet.Range["D1", System.Type.Missing];
+            range.EntireColumn.ColumnWidth = 12;
+            range = workSheet.Range["E1", System.Type.Missing];
+            range.EntireColumn.ColumnWidth = 12;
+            range = workSheet.Range["G1", System.Type.Missing];
+            range.EntireColumn.ColumnWidth = 18;
+            //-------
             workSheet.get_Range("A1:B1").Merge();
             workSheet.get_Range("A2:B2").Merge();
             workSheet.get_Range("F1:G1").Merge();
@@ -44,6 +56,13 @@ namespace sklad
             workSheet.get_Range("D12:E12").Merge();
             workSheet.get_Range("F12:F13").Merge();
             workSheet.get_Range("G12:G13").Merge();
+            //-------
+            workSheet.get_Range("C25:D25").Merge();
+            workSheet.get_Range("E26:G26").Merge();
+            workSheet.get_Range("C27:D27").Merge();
+            workSheet.get_Range("A28:B28").Merge();
+            workSheet.get_Range("C28:D28").Merge();
+            workSheet.get_Range("E28:G28").Merge();
             //-------
             range = workSheet.Range["B2", System.Type.Missing];
             range.EntireRow.RowHeight = 21;
@@ -81,6 +100,17 @@ namespace sklad
             ExcelApp.Cells[12, 6] = "Bahasy - manat, teňňe";
             ExcelApp.Cells[12, 7] = "Goşmaça gymmaty üçin salgydy hasaba almazdan - manat, teňňe";
             //-------
+            ExcelApp.Cells[25, 1] = "Göýbermäge rugsat berdim.Başlyk __________________________";
+            ExcelApp.Cells[25, 5] = "Baş buhgalter";
+            ExcelApp.Cells[25, 5] = "                                                     wezipesi                                   goly           ";
+            ExcelApp.Cells[26, 3] = "ady familiýasy";
+            ExcelApp.Cells[26, 5] = "   wezipesi                             goly                         ady familiýasy";
+            ExcelApp.Cells[27, 1] = "Göýberdim:  __________________      __________________________";
+            ExcelApp.Cells[27, 5] = "Aldym: ___________  ________________";
+            ExcelApp.Cells[28, 1] = "                                                     wezipesi                                   goly           ";
+            ExcelApp.Cells[28, 3] = "ady familiýasy";
+            ExcelApp.Cells[28, 3] = "   wezipesi                             goly                         ady familiýasy";
+            //-------
             string dg = " ";
             for (int i = 0; i < dataGridView1.ColumnCount; i++)
             {
@@ -95,6 +125,7 @@ namespace sklad
             workSheet.get_Range("B8:G8").Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlContinuous;
             workSheet.get_Range("B10:D10").Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlContinuous;
             workSheet.get_Range("F10:G10").Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlContinuous;
+            workSheet.get_Range("F25").Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlContinuous;
             workSheet.get_Range("A12:G13").Borders[Excel.XlBordersIndex.xlEdgeLeft].LineStyle = Excel.XlLineStyle.xlContinuous;
             workSheet.get_Range("A12:G13").Borders[Excel.XlBordersIndex.xlEdgeTop].LineStyle = Excel.XlLineStyle.xlContinuous;
             workSheet.get_Range("A12:G13").Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlContinuous;
