@@ -26,9 +26,60 @@ namespace sklad
             Excel.Range range = workSheet.Range["B1", System.Type.Missing];
             range.EntireColumn.ColumnWidth = 44;
             workSheet.get_Range("A1:B1").Merge();
+            workSheet.get_Range("A2:B2").Merge();
+            workSheet.get_Range("F1:G1").Merge();
+            workSheet.get_Range("F2:G2").Merge();
+            workSheet.get_Range("F3:G3").Merge();
+            workSheet.get_Range("F4:G4").Merge();
+            workSheet.get_Range("B8:G8").Merge();
+            workSheet.get_Range("B9:G9").Merge();
+            workSheet.get_Range("B10:D10").Merge();
+            workSheet.get_Range("F10:G10").Merge();
+            workSheet.get_Range("B11:D11").Merge();
+            workSheet.get_Range("F11:G11").Merge();
+            //-------
+            workSheet.get_Range("A12:A13").Merge();
+            workSheet.get_Range("B12:B13").Merge();
+            workSheet.get_Range("C12:C13").Merge();
+            workSheet.get_Range("D12:E12").Merge();
+            workSheet.get_Range("F12:F13").Merge();
+            workSheet.get_Range("G12:G13").Merge();
+            //-------
+            range = workSheet.Range["B2", System.Type.Missing];
+            range.EntireRow.RowHeight = 21;
             ExcelApp.Cells[1, 1] = "'LGÇ' Müdirliginiň Guýulary düýpli we ýerasty bejeriji bölegi";
             ExcelApp.Cells[1, 6] = "A-5 görnüş";
-            
+            ExcelApp.Cells[2, 1] = "Kärhananyň ady";
+            ExcelApp.Cells[2, 6] = "Türkmenistanyň Maliýe ministrliginiň";
+            ExcelApp.Cells[3, 6] = "2011-nji ýylyň 19 awgustyndaky";
+            ExcelApp.Cells[4, 1] = "Düzümindäki bölüm";
+            ExcelApp.Cells[4, 6] = "82 belgili buýrugy bilen tassyklanyldy";
+            ExcelApp.Cells[6, 3] = "Talapnama - ýan haty №";
+            ExcelApp.Cells[8, 1] = "Kimiň üsti bilen ";
+            ExcelApp.Cells[9, 2] = "harydy göýberijiniň  ady familiýasy we doly resmi salgysy ";
+            ExcelApp.Cells[10, 1] = "Talap eden";
+            ExcelApp.Cells[10, 5] = "Rugsat beren";
+            ExcelApp.Cells[11, 2] = "harydy alyjynyň  ady familiýasy we doly resmi salgysy ";
+            ExcelApp.Cells[11, 6] = "Rugsat beren ýolbaşçy";
+            //-------
+            ExcelApp.Cells[12, 1] = "sanaw belgisi";
+            ExcelApp.Cells[12, 2] = "Maddy gymmatlyklarynyň ady";
+            ExcelApp.Cells[12, 3] = "Ölçeg birligi";
+            ExcelApp.Cells[12, 4] = "Mukdary";
+            ExcelApp.Cells[13, 4] = "talap edileni";
+            ExcelApp.Cells[13, 5] = "göýberileni";
+            ExcelApp.Cells[12, 6] = "Bahasy - manat, teňňe";
+            ExcelApp.Cells[12, 7] = "Goşmaça gymmaty üçin salgydy hasaba almazdan - manat, teňňe";
+            //-------
+            string dg = " ";
+            for (int i = 0; i < dataGridView1.ColumnCount; i++)
+            {
+                for (int j = 0; j < dataGridView1.RowCount; j++)
+                {
+                    dg = dataGridView1[i, j].FormattedValue.ToString();
+                    ExcelApp.Cells[j + 14, i + 1] = dg;
+                }
+            }
             ExcelApp.Visible = true;
         }
 
