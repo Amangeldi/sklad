@@ -42,6 +42,7 @@ namespace sklad
             workSheet.get_Range("F1:G1").Merge();
             workSheet.get_Range("F2:G2").Merge();
             workSheet.get_Range("F3:G3").Merge();
+            workSheet.get_Range("A4:B4").Merge();
             workSheet.get_Range("F4:G4").Merge();
             workSheet.get_Range("B8:G8").Merge();
             workSheet.get_Range("B9:G9").Merge();
@@ -66,6 +67,8 @@ namespace sklad
             //-------
             range = workSheet.Range["B2", System.Type.Missing];
             range.EntireRow.RowHeight = 21;
+            range = workSheet.Range["A10", System.Type.Missing];
+            range.EntireRow.RowHeight = 30;
             ExcelApp.Cells[1, 1] = "'LGÇ' Müdirliginiň Guýulary düýpli we ýerasty bejeriji bölegi";
             ExcelApp.Cells[1, 6] = "A-5 görnüş";
             ExcelApp.Cells[2, 1] = "Kärhananyň ady";
@@ -76,13 +79,13 @@ namespace sklad
             ExcelApp.Cells[6, 3] = "Talapnama - ýan haty № "+waybill;
             if (traffic == "0")
             {
-                ExcelApp.Cells[8, 2] = "Аннаклычев Хакнепес Амангелдиевич";
-                ExcelApp.Cells[10, 2] = user;
+                ExcelApp.Cells[8, 2] = user;
+                ExcelApp.Cells[10, 2] = "Аннаклычев Хакнепес Амангелдиевич";
             }
             else if (traffic == "1")
             {
-                ExcelApp.Cells[8, 2] = user;
-                ExcelApp.Cells[10, 2] = "Аннаклычев Хакнепес Амангелдиевич";
+                ExcelApp.Cells[8, 2] = "Аннаклычев Хакнепес Амангелдиевич";
+                ExcelApp.Cells[10, 2] = user;
             }
             ExcelApp.Cells[8, 1] = "Kimiň üsti bilen ";
             ExcelApp.Cells[9, 2] = "harydy göýberijiniň  ady familiýasy we doly resmi salgysy ";
@@ -104,11 +107,22 @@ namespace sklad
             ExcelApp.Cells[25, 5] = "Baş buhgalter";
             ExcelApp.Cells[26, 3] = "ady familiýasy";
             ExcelApp.Cells[26, 5] = "   wezipesi                             goly                         ady familiýasy";
+            if (traffic == "0")
+            {
+                ExcelApp.Cells[27, 1] = "Göýberdim: "+user;
+                ExcelApp.Cells[27, 5] = "Aldym: Аннаклычев Хакнепес";
+            }
+            else if (traffic == "1")
+            {
+                ExcelApp.Cells[27, 1] = "Göýberdim: Аннаклычев Хакнепес";
+                ExcelApp.Cells[27, 5] = "Aldym: "+ user;
+            }
+
             ExcelApp.Cells[27, 1] = "Göýberdim:  __________________      __________________________";
             ExcelApp.Cells[27, 5] = "Aldym: ___________  ________________";
             ExcelApp.Cells[28, 1] = "                                                     wezipesi                                   goly           ";
             ExcelApp.Cells[28, 3] = "ady familiýasy";
-            ExcelApp.Cells[28, 3] = "   wezipesi                             goly                         ady familiýasy";
+            ExcelApp.Cells[28, 5] = "   wezipesi                             goly                         ady familiýasy";
             //-------
             string dg = " ";
             for (int i = 0; i < dataGridView1.ColumnCount; i++)
@@ -138,7 +152,50 @@ namespace sklad
             workSheet.get_Range("A14:G22").Borders[Excel.XlBordersIndex.xlEdgeRight].LineStyle = Excel.XlLineStyle.xlContinuous;
             workSheet.get_Range("A14:G22").Borders[Excel.XlBordersIndex.xlInsideVertical].LineStyle = Excel.XlLineStyle.xlContinuous;
             workSheet.get_Range("A14:G22").Borders[Excel.XlBordersIndex.xlInsideHorizontal].LineStyle = Excel.XlLineStyle.xlContinuous;
-
+            //-------
+            workSheet.get_Range("F1:G4").HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            workSheet.get_Range("A2").Font.Size = 14;
+            workSheet.get_Range("A2").Font.Superscript= true;
+            workSheet.get_Range("A2").HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            workSheet.get_Range("A4").Font.Size = 14;
+            workSheet.get_Range("A4").Font.Superscript = true;
+            workSheet.get_Range("A4").HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            workSheet.get_Range("C6").Font.Bold = true;
+            workSheet.get_Range("B9").Font.Size = 14;
+            workSheet.get_Range("B9").Font.Superscript = true;
+            workSheet.get_Range("B9").HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            workSheet.get_Range("B11").Font.Size = 14;
+            workSheet.get_Range("B11").Font.Superscript = true;
+            workSheet.get_Range("B11").HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            workSheet.get_Range("F11").Font.Size = 14;
+            workSheet.get_Range("F11").Font.Superscript = true;
+            workSheet.get_Range("F11").HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            workSheet.get_Range("A26").Font.Size = 14;
+            workSheet.get_Range("A26").Font.Superscript = true;
+            workSheet.get_Range("A26").HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            workSheet.get_Range("C26").Font.Size = 14;
+            workSheet.get_Range("C26").Font.Superscript = true;
+            workSheet.get_Range("C26").HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            workSheet.get_Range("E26").Font.Size = 14;
+            workSheet.get_Range("E26").Font.Superscript = true;
+            workSheet.get_Range("E26").HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            workSheet.get_Range("A28").Font.Size = 14;
+            workSheet.get_Range("A28").Font.Superscript = true;
+            workSheet.get_Range("A28").HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            workSheet.get_Range("C28").Font.Size = 14;
+            workSheet.get_Range("C28").Font.Superscript = true;
+            workSheet.get_Range("C28").HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            workSheet.get_Range("E28").Font.Size = 14;
+            workSheet.get_Range("E28").Font.Superscript = true;
+            workSheet.get_Range("E28").HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            workSheet.get_Range("A12:G22").WrapText = true;
+            workSheet.get_Range("A14:A22").HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            workSheet.get_Range("C12:G22").HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            workSheet.get_Range("C12:G22").VerticalAlignment = Excel.XlVAlign.xlVAlignCenter;
+            workSheet.get_Range("A12:G13").HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            workSheet.get_Range("A12:G13").VerticalAlignment = Excel.XlVAlign.xlVAlignCenter;
+            workSheet.get_Range("A10:G10").HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            workSheet.get_Range("A10:G10").VerticalAlignment = Excel.XlVAlign.xlVAlignCenter;
             ExcelApp.Visible = true;
         }
 
