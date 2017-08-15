@@ -9,7 +9,7 @@ namespace sklad
 {
     public class ConnOpen
     {
-        static string connStr = @"Data Source=AMAN\SQLEXPRESS;Initial Catalog=sklad;Integrated Security=True";
+        static string connStr = @"Data Source=.\SQLEXPRESS;Initial Catalog=sklad;Integrated Security=True";
         public SqlConnection connection = new SqlConnection(connStr);
     }
 }
