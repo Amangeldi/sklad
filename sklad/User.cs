@@ -13,11 +13,11 @@ namespace sklad
         public ConnOpen delete_user = new ConnOpen();
         public ConnOpen test_user = new ConnOpen();
         public ConnOpen update_user = new ConnOpen();
-        public void add(string familija, string imja, string otchestvo, string DOB, string tel, string mail, string login, string password, string foto, int role)
+        public void add(string familija, string imja, string otchestvo, string DOB, string tel, string mail, string login, string password, string foto, int role, string place_of_work, string position)
         {
             add_user.connection.Open();
-            string sql = string.Format("Insert Into Product" +
-                       "(user_familija, user_imja, user_otchestvo, DOB, user_tel, user_mail, user_login, user_password, user_foto, role) Values(@user_familija, @user_imja, @user_otchestvo, @DOB, @user_tel, @user_mail, @user_login, @user_password, @user_foto, @role)");
+            string sql = string.Format("Insert Into Users" +
+                       "(user_familija, user_imja, user_otchestvo, DOB, user_tel, user_mail, user_login, user_password, user_foto, role, place_of_work, position) Values(@user_familija, @user_imja, @user_otchestvo, @DOB, @user_tel, @user_mail, @user_login, @user_password, @user_foto, @role, @place_of_work, @position)");
             using (SqlCommand cmd = new SqlCommand(sql, add_user.connection))
             {
                 cmd.Parameters.AddWithValue("@user_familija", familija);
@@ -30,6 +30,8 @@ namespace sklad
                 cmd.Parameters.AddWithValue("@user_password", password);
                 cmd.Parameters.AddWithValue("@user_foto", foto);
                 cmd.Parameters.AddWithValue("@role", role);
+                cmd.Parameters.AddWithValue("@place_of_work", place_of_work);
+                cmd.Parameters.AddWithValue("@position", position);
                 cmd.ExecuteNonQuery();
             }
             add_user.connection.Close();
@@ -38,7 +40,7 @@ namespace sklad
         {
             test_user.connection.Open();
             bool test;
-            SqlCommand sqlCom = new SqlCommand("SELECT * FROM dbo.User WHERE user_id LIKE '%" + id + "'", test_user.connection);
+            SqlCommand sqlCom = new SqlCommand("SELECT * FROM dbo.Users WHERE user_id LIKE '%" + id + "'", test_user.connection);
             SqlDataReader dr = sqlCom.ExecuteReader();
             if (dr.HasRows == true)
             {
@@ -54,7 +56,7 @@ namespace sklad
         public void delete(string id)
         {
             delete_user.connection.Open();
-            string sql = string.Format("Delete from User where user_id = '{0}'", id);
+            string sql = string.Format("Delete from Users where user_id = '{0}'", id);
             using (SqlCommand cmd = new SqlCommand(sql, delete_user.connection))
             {
                 cmd.ExecuteNonQuery();

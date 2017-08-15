@@ -26,7 +26,7 @@ namespace sklad
         {
             int role = comboBox1.SelectedIndex+1;
             User A = new User();
-            A.add(textBox1.Text, textBox2.Text, textBox3.Text, dateTimePicker1.Value.ToString(), textBox4.Text, textBox5.Text, textBox6.Text, textBox7.Text, "", role);
+            A.add(textBox1.Text, textBox2.Text, textBox3.Text, dateTimePicker1.Value.ToString(), textBox4.Text, textBox5.Text, textBox6.Text, textBox7.Text, "", role, textBox8.Text, textBox9.Text);
         }
     }
 }
