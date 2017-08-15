@@ -8,14 +8,197 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Microsoft.Office.Interop.Excel;
+using Excel = Microsoft.Office.Interop.Excel;
 
 namespace sklad
 {
     public partial class Waybill : Form
     {
-        int responsible, product, unit;
+        int responsible, product, unit, no;
         string waybill, user, traffic, product_name, unit_name, date;
+
+        private void button1_Click(object sender, EventArgs e)
+        {            
+            Excel.Application ExcelApp = new Excel.Application();
+            ExcelApp.Application.Workbooks.Add(Type.Missing);
+            ExcelApp.Columns.ColumnWidth = 15;
+            Excel.Worksheet workSheet = (Excel.Worksheet)ExcelApp.ActiveSheet;
+            Excel.Range range = workSheet.Range["B1", System.Type.Missing];
+            range = workSheet.Range["A1", System.Type.Missing];
+            range.EntireColumn.ColumnWidth = 11;
+            range = workSheet.Range["B1", System.Type.Missing];
+            range.EntireColumn.ColumnWidth = 37;
+            range = workSheet.Range["C1", System.Type.Missing];
+            range.EntireColumn.ColumnWidth = 8;
+            range = workSheet.Range["D1", System.Type.Missing];
+            range.EntireColumn.ColumnWidth = 12;
+            range = workSheet.Range["E1", System.Type.Missing];
+            range.EntireColumn.ColumnWidth = 12;
+            range = workSheet.Range["G1", System.Type.Missing];
+            range.EntireColumn.ColumnWidth = 18;
+            //-------
+            workSheet.get_Range("A1:B1").Merge();
+            workSheet.get_Range("A2:B2").Merge();
+            workSheet.get_Range("F1:G1").Merge();
+            workSheet.get_Range("F2:G2").Merge();
+            workSheet.get_Range("F3:G3").Merge();
+            workSheet.get_Range("A4:B4").Merge();
+            workSheet.get_Range("F4:G4").Merge();
+            workSheet.get_Range("B8:G8").Merge();
+            workSheet.get_Range("B9:G9").Merge();
+            workSheet.get_Range("B10:D10").Merge();
+            workSheet.get_Range("F10:G10").Merge();
+            workSheet.get_Range("B11:D11").Merge();
+            workSheet.get_Range("F11:G11").Merge();
+            //-------
+            workSheet.get_Range("A12:A13").Merge();
+            workSheet.get_Range("B12:B13").Merge();
+            workSheet.get_Range("C12:C13").Merge();
+            workSheet.get_Range("D12:E12").Merge();
+            workSheet.get_Range("F12:F13").Merge();
+            workSheet.get_Range("G12:G13").Merge();
+            //-------
+            workSheet.get_Range("C25:D25").Merge();
+            workSheet.get_Range("E26:G26").Merge();
+            workSheet.get_Range("C27:D27").Merge();
+            workSheet.get_Range("A28:B28").Merge();
+            workSheet.get_Range("C28:D28").Merge();
+            workSheet.get_Range("E28:G28").Merge();
+            //-------
+            range = workSheet.Range["B2", System.Type.Missing];
+            range.EntireRow.RowHeight = 21;
+            range = workSheet.Range["A10", System.Type.Missing];
+            range.EntireRow.RowHeight = 30;
+            ExcelApp.Cells[1, 1] = "'LGÇ' Müdirliginiň Guýulary düýpli we ýerasty bejeriji bölegi";
+            ExcelApp.Cells[1, 6] = "A-5 görnüş";
+            ExcelApp.Cells[2, 1] = "Kärhananyň ady";
+            ExcelApp.Cells[2, 6] = "Türkmenistanyň Maliýe ministrliginiň";
+            ExcelApp.Cells[3, 6] = "2011-nji ýylyň 19 awgustyndaky";
+            ExcelApp.Cells[4, 1] = "Düzümindäki bölüm";
+            ExcelApp.Cells[4, 6] = "82 belgili buýrugy bilen tassyklanyldy";
+            ExcelApp.Cells[6, 3] = "Talapnama - ýan haty № "+waybill;
+            if (traffic == "0")
+            {
+                ExcelApp.Cells[8, 2] = user;
+                ExcelApp.Cells[10, 2] = "Аннаклычев Хакнепес Амангелдиевич";
+            }
+            else if (traffic == "1")
+            {
+                ExcelApp.Cells[8, 2] = "Аннаклычев Хакнепес Амангелдиевич";
+                ExcelApp.Cells[10, 2] = user;
+            }
+            ExcelApp.Cells[8, 1] = "Kimiň üsti bilen ";
+            ExcelApp.Cells[9, 2] = "harydy göýberijiniň  ady familiýasy we doly resmi salgysy ";
+            ExcelApp.Cells[10, 1] = "Talap eden";
+            ExcelApp.Cells[10, 5] = "Rugsat beren";
+            ExcelApp.Cells[11, 2] = "harydy alyjynyň  ady familiýasy we doly resmi salgysy ";
+            ExcelApp.Cells[11, 6] = "Rugsat beren ýolbaşçy";
+            //-------
+            ExcelApp.Cells[12, 1] = "sanaw belgisi";
+            ExcelApp.Cells[12, 2] = "Maddy gymmatlyklarynyň ady";
+            ExcelApp.Cells[12, 3] = "Ölçeg birligi";
+            ExcelApp.Cells[12, 4] = "Mukdary";
+            ExcelApp.Cells[13, 4] = "talap edileni";
+            ExcelApp.Cells[13, 5] = "göýberileni";
+            ExcelApp.Cells[12, 6] = "Bahasy - manat, teňňe";
+            ExcelApp.Cells[12, 7] = "Goşmaça gymmaty üçin salgydy hasaba almazdan - manat, teňňe";
+            //-------
+            ExcelApp.Cells[25, 1] = "Göýbermäge rugsat berdim.Başlyk __________________________";
+            ExcelApp.Cells[25, 5] = "Baş buhgalter";
+            ExcelApp.Cells[26, 3] = "ady familiýasy";
+            ExcelApp.Cells[26, 5] = "   wezipesi                             goly                         ady familiýasy";
+            if (traffic == "0")
+            {
+                ExcelApp.Cells[27, 1] = "Göýberdim: "+user;
+                ExcelApp.Cells[27, 5] = "Aldym: Аннаклычев Хакнепес";
+            }
+            else if (traffic == "1")
+            {
+                ExcelApp.Cells[27, 1] = "Göýberdim: Аннаклычев Хакнепес";
+                ExcelApp.Cells[27, 5] = "Aldym: "+ user;
+            }
+
+            ExcelApp.Cells[27, 1] = "Göýberdim:  __________________      __________________________";
+            ExcelApp.Cells[27, 5] = "Aldym: ___________  ________________";
+            ExcelApp.Cells[28, 1] = "                                                     wezipesi                                   goly           ";
+            ExcelApp.Cells[28, 3] = "ady familiýasy";
+            ExcelApp.Cells[28, 5] = "   wezipesi                             goly                         ady familiýasy";
+            //-------
+            string dg = " ";
+            for (int i = 0; i < dataGridView1.ColumnCount; i++)
+            {
+                for (int j = 0; j < dataGridView1.RowCount; j++)
+                {
+                    dg = dataGridView1[i, j].FormattedValue.ToString();
+                    ExcelApp.Cells[j + 14, i + 1] = dg;
+                }
+            }
+            workSheet.get_Range("A1:B1").Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlContinuous;
+            workSheet.get_Range("A3:B3").Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlContinuous;
+            workSheet.get_Range("B8:G8").Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlContinuous;
+            workSheet.get_Range("B10:D10").Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlContinuous;
+            workSheet.get_Range("F10:G10").Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlContinuous;
+            workSheet.get_Range("F25").Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlContinuous;
+            workSheet.get_Range("A12:G13").Borders[Excel.XlBordersIndex.xlEdgeLeft].LineStyle = Excel.XlLineStyle.xlContinuous;
+            workSheet.get_Range("A12:G13").Borders[Excel.XlBordersIndex.xlEdgeTop].LineStyle = Excel.XlLineStyle.xlContinuous;
+            workSheet.get_Range("A12:G13").Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlContinuous;
+            workSheet.get_Range("A12:G13").Borders[Excel.XlBordersIndex.xlEdgeRight].LineStyle = Excel.XlLineStyle.xlContinuous;
+            workSheet.get_Range("A12:G13").Borders[Excel.XlBordersIndex.xlInsideVertical].LineStyle = Excel.XlLineStyle.xlContinuous;
+            workSheet.get_Range("A12:G13").Borders[Excel.XlBordersIndex.xlInsideHorizontal].LineStyle = Excel.XlLineStyle.xlContinuous;
+            //-------
+            workSheet.get_Range("A14:G22").Borders[Excel.XlBordersIndex.xlEdgeLeft].LineStyle = Excel.XlLineStyle.xlContinuous;
+            workSheet.get_Range("A14:G22").Borders[Excel.XlBordersIndex.xlEdgeTop].LineStyle = Excel.XlLineStyle.xlContinuous;
+            workSheet.get_Range("A14:G22").Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlContinuous;
+            workSheet.get_Range("A14:G22").Borders[Excel.XlBordersIndex.xlEdgeRight].LineStyle = Excel.XlLineStyle.xlContinuous;
+            workSheet.get_Range("A14:G22").Borders[Excel.XlBordersIndex.xlInsideVertical].LineStyle = Excel.XlLineStyle.xlContinuous;
+            workSheet.get_Range("A14:G22").Borders[Excel.XlBordersIndex.xlInsideHorizontal].LineStyle = Excel.XlLineStyle.xlContinuous;
+            //-------
+            workSheet.get_Range("F1:G4").HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            workSheet.get_Range("A2").Font.Size = 14;
+            workSheet.get_Range("A2").Font.Superscript= true;
+            workSheet.get_Range("A2").HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            workSheet.get_Range("A4").Font.Size = 14;
+            workSheet.get_Range("A4").Font.Superscript = true;
+            workSheet.get_Range("A4").HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            workSheet.get_Range("C6").Font.Bold = true;
+            workSheet.get_Range("B9").Font.Size = 14;
+            workSheet.get_Range("B9").Font.Superscript = true;
+            workSheet.get_Range("B9").HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            workSheet.get_Range("B11").Font.Size = 14;
+            workSheet.get_Range("B11").Font.Superscript = true;
+            workSheet.get_Range("B11").HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            workSheet.get_Range("F11").Font.Size = 14;
+            workSheet.get_Range("F11").Font.Superscript = true;
+            workSheet.get_Range("F11").HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            workSheet.get_Range("A26").Font.Size = 14;
+            workSheet.get_Range("A26").Font.Superscript = true;
+            workSheet.get_Range("A26").HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            workSheet.get_Range("C26").Font.Size = 14;
+            workSheet.get_Range("C26").Font.Superscript = true;
+            workSheet.get_Range("C26").HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            workSheet.get_Range("E26").Font.Size = 14;
+            workSheet.get_Range("E26").Font.Superscript = true;
+            workSheet.get_Range("E26").HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            workSheet.get_Range("A28").Font.Size = 14;
+            workSheet.get_Range("A28").Font.Superscript = true;
+            workSheet.get_Range("A28").HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            workSheet.get_Range("C28").Font.Size = 14;
+            workSheet.get_Range("C28").Font.Superscript = true;
+            workSheet.get_Range("C28").HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            workSheet.get_Range("E28").Font.Size = 14;
+            workSheet.get_Range("E28").Font.Superscript = true;
+            workSheet.get_Range("E28").HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            workSheet.get_Range("A12:G22").WrapText = true;
+            workSheet.get_Range("A14:A22").HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            workSheet.get_Range("C12:G22").HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            workSheet.get_Range("C12:G22").VerticalAlignment = Excel.XlVAlign.xlVAlignCenter;
+            workSheet.get_Range("A12:G13").HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            workSheet.get_Range("A12:G13").VerticalAlignment = Excel.XlVAlign.xlVAlignCenter;
+            workSheet.get_Range("A10:G10").HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            workSheet.get_Range("A10:G10").VerticalAlignment = Excel.XlVAlign.xlVAlignCenter;
+            ExcelApp.Visible = true;
+        }
+
         float product_quantity, price, summa;
         public Waybill(string _waybill, string _traffic)
         {
@@ -26,8 +209,7 @@ namespace sklad
 
         private void Waybill_Load(object sender, EventArgs e)
         {
-            Microsoft.Office.Interop.Excel.Application ExcelApp = new Microsoft.Office.Interop.Excel.Application();
-            ExcelApp.Application.Workbooks.Add(Type.Missing);
+            
 
             var columnNo = new DataGridViewColumn();
             columnNo.HeaderText = "No";
@@ -40,8 +222,8 @@ namespace sklad
             columnPName.CellTemplate = new DataGridViewTextBoxCell();
 
             var columnUnit = new DataGridViewColumn();
-            columnUnit.HeaderText = "Maddy gymmatlygyn ady";
-            columnUnit.Name = "productName";
+            columnUnit.HeaderText = "Olceg birligin ady";
+            columnUnit.Name = "unitName";
             columnUnit.CellTemplate = new DataGridViewTextBoxCell();
 
             var columnMT = new DataGridViewColumn();
