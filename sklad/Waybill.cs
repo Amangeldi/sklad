@@ -206,6 +206,7 @@ namespace sklad
             workSheet.get_Range("A22").HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
             workSheet.get_Range("A22").Font.Bold = true;
             ExcelApp.Visible = true;
+            
         }
 
         float product_quantity, price, summa;
