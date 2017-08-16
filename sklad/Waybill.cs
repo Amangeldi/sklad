@@ -15,8 +15,8 @@ namespace sklad
     public partial class Waybill : Form
     {
         int responsible, product, unit, no;
-        string waybill, user, traffic, product_name, unit_name, date;
-
+        string waybill, user, traffic, product_name, unit_name, date, place_of_work, position, my_place = "Ojak 7", my_position = "Burow ussasy";
+        float jemi = 0;
         private void button1_Click(object sender, EventArgs e)
         {            
             Excel.Application ExcelApp = new Excel.Application();
@@ -65,10 +65,13 @@ namespace sklad
             workSheet.get_Range("C28:D28").Merge();
             workSheet.get_Range("E28:G28").Merge();
             //-------
+            workSheet.get_Range("C7:D7").Merge();
+            workSheet.get_Range("A22:F22").Merge();
+            //-------
             range = workSheet.Range["B2", System.Type.Missing];
             range.EntireRow.RowHeight = 21;
-            range = workSheet.Range["A10", System.Type.Missing];
-            range.EntireRow.RowHeight = 30;
+            //range = workSheet.Range["A10", System.Type.Missing];
+            //range.EntireRow.RowHeight = 30;
             ExcelApp.Cells[1, 1] = "'LGÇ' Müdirliginiň Guýulary düýpli we ýerasty bejeriji bölegi";
             ExcelApp.Cells[1, 6] = "A-5 görnüş";
             ExcelApp.Cells[2, 1] = "Kärhananyň ady";
@@ -79,13 +82,13 @@ namespace sklad
             ExcelApp.Cells[6, 3] = "Talapnama - ýan haty № "+waybill;
             if (traffic == "0")
             {
-                ExcelApp.Cells[8, 2] = user;
-                ExcelApp.Cells[10, 2] = "Аннаклычев Хакнепес Амангелдиевич";
+                ExcelApp.Cells[8, 2] = user + " " + place_of_work + " " + position;
+                ExcelApp.Cells[10, 2] = "Аннаклычев Хакнепес" + " " + my_place + " " + my_position;
             }
             else if (traffic == "1")
             {
-                ExcelApp.Cells[8, 2] = "Аннаклычев Хакнепес Амангелдиевич";
-                ExcelApp.Cells[10, 2] = user;
+                ExcelApp.Cells[8, 2] = "Аннаклычев Хакнепес" + " " + my_place + " " + my_position;
+                ExcelApp.Cells[10, 2] = user + " " + place_of_work + " " + position;
             }
             ExcelApp.Cells[8, 1] = "Kimiň üsti bilen ";
             ExcelApp.Cells[9, 2] = "harydy göýberijiniň  ady familiýasy we doly resmi salgysy ";
@@ -109,20 +112,23 @@ namespace sklad
             ExcelApp.Cells[26, 5] = "   wezipesi                             goly                         ady familiýasy";
             if (traffic == "0")
             {
-                ExcelApp.Cells[27, 1] = "Göýberdim: "+user;
-                ExcelApp.Cells[27, 5] = "Aldym: Аннаклычев Хакнепес";
+                ExcelApp.Cells[27, 1] = "Göýberdim: "+user+" "+place_of_work+" "+position;
+                ExcelApp.Cells[27, 5] = "Aldym: Аннаклычев Хакнепес" + " " + my_place + " " + my_position;
             }
             else if (traffic == "1")
             {
-                ExcelApp.Cells[27, 1] = "Göýberdim: Аннаклычев Хакнепес";
-                ExcelApp.Cells[27, 5] = "Aldym: "+ user;
+                ExcelApp.Cells[27, 1] = "Göýberdim: Аннаклычев Хакнепес" + " " + my_place + " " + my_position;
+                ExcelApp.Cells[27, 5] = "Aldym: "+ user + " " + place_of_work + " " + position;
             }
 
-            ExcelApp.Cells[27, 1] = "Göýberdim:  __________________      __________________________";
-            ExcelApp.Cells[27, 5] = "Aldym: ___________  ________________";
+            //ExcelApp.Cells[27, 1] = "Göýberdim:  __________________      __________________________";
+            //ExcelApp.Cells[27, 5] = "Aldym: ___________  ________________";
             ExcelApp.Cells[28, 1] = "                                                     wezipesi                                   goly           ";
             ExcelApp.Cells[28, 3] = "ady familiýasy";
             ExcelApp.Cells[28, 5] = "   wezipesi                             goly                         ady familiýasy";
+            //-------
+            ExcelApp.Cells[7, 3] = dateTimePicker1.Value.ToShortDateString()+" ýyl";
+            ExcelApp.Cells[22, 1] = "Jemi: ";
             //-------
             string dg = " ";
             for (int i = 0; i < dataGridView1.ColumnCount; i++)
@@ -133,6 +139,7 @@ namespace sklad
                     ExcelApp.Cells[j + 14, i + 1] = dg;
                 }
             }
+            ExcelApp.Cells[22, 7] = jemi;
             workSheet.get_Range("A1:B1").Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlContinuous;
             workSheet.get_Range("A3:B3").Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlContinuous;
             workSheet.get_Range("B8:G8").Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlContinuous;
@@ -196,6 +203,8 @@ namespace sklad
             workSheet.get_Range("A12:G13").VerticalAlignment = Excel.XlVAlign.xlVAlignCenter;
             workSheet.get_Range("A10:G10").HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
             workSheet.get_Range("A10:G10").VerticalAlignment = Excel.XlVAlign.xlVAlignCenter;
+            workSheet.get_Range("A22").HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            workSheet.get_Range("A22").Font.Bold = true;
             ExcelApp.Visible = true;
         }
 
@@ -273,6 +282,8 @@ namespace sklad
             SqlDataReader readerUser = commandUser.ExecuteReader();
             readerUser.Read();        
             user = readerUser["fio"].ToString();
+            place_of_work = readerUser["place_of_work"].ToString();
+            position = readerUser["position"].ToString();
             readerUser.Close();
             userLoad.connection.Close();
             //-------
@@ -304,6 +315,7 @@ namespace sklad
                 readerUnit.Close();
                 product_quantity =Convert.ToSingle( readerForDGV["product_quantity"]);
                 summa = product_quantity * price;
+                jemi += summa;
                 dataGridView1.Rows.Add(n, product_name, unit_name, " ", product_quantity, price, summa);
 
             }
