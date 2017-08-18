@@ -19,7 +19,7 @@ namespace sklad
         {
             InitializeComponent();
         }
-        int responsible, product, traffic, unit;
+        int product, unit;
 
         private void button2_Click(object sender, EventArgs e)
         {
@@ -40,8 +40,50 @@ namespace sklad
             range.EntireColumn.ColumnWidth = 25;
             range = workSheet.Range["C1", System.Type.Missing];
             range.EntireColumn.ColumnWidth = 6;
+            range = workSheet.Range["D1", System.Type.Missing];
+            range.EntireColumn.ColumnWidth = 11;
+            range = workSheet.Range["E1", System.Type.Missing];
+            range.EntireColumn.ColumnWidth = 8;
+            range = workSheet.Range["F1", System.Type.Missing];
+            range.EntireColumn.ColumnWidth = 11;
             //-------
             workSheet.get_Range("A2:A4").Merge();
+            workSheet.get_Range("B2:B4").Merge();
+            workSheet.get_Range("C2:C4").Merge();
+            workSheet.get_Range("D2:D4").Merge();
+            workSheet.get_Range("E2:F3").Merge();
+            workSheet.get_Range("A26:B26").Merge();
+            //-------
+            int i = 1, g = 0;
+            while (i<22)
+            {
+                g = i + 4;
+                ExcelApp.Cells[g, 1] = i;
+                i++;
+            }
+            ExcelApp.Cells[2, 1] = "T №";
+            ExcelApp.Cells[2, 2] = "MADDY                                                                                  GYMMATLYKLARYŇ                                                                              ADY";
+            ExcelApp.Cells[2, 3] = "Ölçeg birligi";
+            ExcelApp.Cells[2, 4] = "Bahasy";
+            ExcelApp.Cells[2, 5] = dateTimePicker1.Value.ToShortDateString()+ " ý              galyndysy";
+            ExcelApp.Cells[4, 5] = "sany";
+            ExcelApp.Cells[4, 6] = "jemi bahasy";
+            ExcelApp.Cells[26, 1] = "Jemi";
+            //-------
+            workSheet.get_Range("A2").Orientation = 90;
+            workSheet.get_Range("B2").Font.Bold = true;
+            workSheet.get_Range("E2").Font.Bold = true;
+            workSheet.get_Range("A26").Font.Bold = true;
+            workSheet.get_Range("A26").HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            workSheet.get_Range("A2:F4").HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            workSheet.get_Range("A2:F4").VerticalAlignment = Excel.XlVAlign.xlVAlignCenter;
+            workSheet.get_Range("A2:F4").WrapText = true;
+            workSheet.get_Range("A2:F26").Borders[Excel.XlBordersIndex.xlEdgeLeft].LineStyle = Excel.XlLineStyle.xlContinuous;
+            workSheet.get_Range("A2:F26").Borders[Excel.XlBordersIndex.xlEdgeTop].LineStyle = Excel.XlLineStyle.xlContinuous;
+            workSheet.get_Range("A2:F26").Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlContinuous;
+            workSheet.get_Range("A2:F26").Borders[Excel.XlBordersIndex.xlEdgeRight].LineStyle = Excel.XlLineStyle.xlContinuous;
+            workSheet.get_Range("A2:F26").Borders[Excel.XlBordersIndex.xlInsideVertical].LineStyle = Excel.XlLineStyle.xlContinuous;
+            workSheet.get_Range("A2:F26").Borders[Excel.XlBordersIndex.xlInsideHorizontal].LineStyle = Excel.XlLineStyle.xlContinuous;
             //-------
             ExcelApp.Visible = true;
         }
@@ -56,8 +98,8 @@ namespace sklad
         private void Report_Load(object sender, EventArgs e)
         {
 
-            string sResponsible, sProduct, sUnit, location, date, waybill;
-            float product_quantity, price, rProduct_quantity, pValue = 0, rValue = 0, sum, sPrice;
+            string sProduct, sUnit;
+            float product_quantity, price,  pValue = 0, rValue = 0, sum, sPrice;
             ConnOpen reportLoad = new ConnOpen();
             ConnOpen productLoad = new ConnOpen();
             ConnOpen unitLoad = new ConnOpen();
@@ -75,8 +117,6 @@ namespace sklad
             SqlDataReader readerProduct = commandProduct.ExecuteReader();
             SqlCommand commandUnit;
             SqlDataReader readerUnit;
-            SqlCommand commandUser;
-            SqlDataReader readerUser;
             SqlCommand commandT;
             SqlDataReader readerT;
             //Создали команды и датаридеры

@@ -14,8 +14,8 @@ namespace sklad
 {
     public partial class Waybill : Form
     {
-        int responsible, product, unit, no;
-        string waybill, user, traffic, product_name, unit_name, date, place_of_work, position, my_place = "Ojak 7", my_position = "Burow ussasy";
+        int responsible, product, unit;
+        string waybill, user, traffic, product_name, unit_name, place_of_work, position, my_place = "Ojak 7", my_position = "Burow ussasy";
         float jemi = 0;
         private void button1_Click(object sender, EventArgs e)
         {            
