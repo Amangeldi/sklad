@@ -23,6 +23,30 @@ namespace sklad
 
         private void button2_Click(object sender, EventArgs e)
         {
+            string sProduct, sUnit;
+            float product_quantity, price, pValue = 0, rValue = 0, sum, sPrice;
+            ConnOpen reportLoad = new ConnOpen();
+            ConnOpen productLoad = new ConnOpen();
+            ConnOpen unitLoad = new ConnOpen();
+            ConnOpen userLoad = new ConnOpen();
+            ConnOpen tLoad = new ConnOpen();
+            reportLoad.connection.Open();
+            productLoad.connection.Open();
+            unitLoad.connection.Open();
+            userLoad.connection.Open();
+            tLoad.connection.Open();
+            //Открыли все коннекты
+            SqlCommand commandResponsible = new SqlCommand("SELECT * FROM dbo.Responsibility", reportLoad.connection);
+            SqlDataReader readerResponsible = commandResponsible.ExecuteReader();
+            SqlCommand commandProduct = new SqlCommand("SELECT * FROM dbo.Product WHERE product_flag = '" + 1 + "'", productLoad.connection);
+            SqlDataReader readerProduct = commandProduct.ExecuteReader();
+            SqlCommand commandUnit;
+            SqlDataReader readerUnit;
+            SqlCommand commandT;
+            SqlDataReader readerT;
+            //Создали команды и датаридеры
+            
+            //------------------------------------------------------------
             ExcelApp.Application.Workbooks.Add(Type.Missing);
             ExcelApp.Rows.RowHeight = 15;
             Excel.Worksheet workSheet = (Excel.Worksheet)ExcelApp.ActiveSheet;
@@ -61,6 +85,50 @@ namespace sklad
                 ExcelApp.Cells[g, 1] = i;
                 i++;
             }
+            int n = 4;
+            while (readerProduct.Read())
+            {
+                product = Convert.ToInt32(readerProduct["product_id"]);
+                sProduct = readerProduct["product_name"].ToString();
+                unit = Convert.ToInt32(readerProduct["product_unit"]);
+                price = Convert.ToSingle(readerProduct["product_price"]);
+                product_quantity = Convert.ToSingle(readerProduct["product_quantity"]);
+                //-------
+                commandUnit = new SqlCommand("SELECT * FROM dbo.Unit WHERE unit_id = '" + unit + "'", unitLoad.connection);
+                readerUnit = commandUnit.ExecuteReader();
+                readerUnit.Read();
+                sUnit = readerUnit["unit_name"].ToString();
+                readerUnit.Close();
+                //-------
+                commandT = new SqlCommand("SELECT * FROM dbo.Responsibility WHERE product = '" + product + "'", tLoad.connection);
+                readerT = commandT.ExecuteReader();
+                while (readerT.Read())
+                {
+                    if (readerT["traffic"].ToString() == "0")
+                    {
+                        pValue += Convert.ToInt32(readerT["product_quantity"]);
+                    }
+                    if (readerT["traffic"].ToString() == "1")
+                    {
+                        rValue += Convert.ToInt32(readerT["product_quantity"]);
+                    }
+                }
+                readerT.Close();
+                sum = product_quantity + pValue - rValue;
+                sPrice = sum * price;
+                n++;
+                ExcelApp.Cells[n, 2] = sProduct;
+                ExcelApp.Cells[n, 3] = sUnit;
+                pValue = 0;
+                rValue = 0;
+            }
+            reportLoad.connection.Close();
+            productLoad.connection.Close();
+            unitLoad.connection.Close();
+            userLoad.connection.Close();
+            tLoad.connection.Close();
+            //Закрыли коннекты
+            //-------
             ExcelApp.Cells[2, 1] = "T №";
             ExcelApp.Cells[2, 2] = "MADDY                                                                                  GYMMATLYKLARYŇ                                                                              ADY";
             ExcelApp.Cells[2, 3] = "Ölçeg birligi";
