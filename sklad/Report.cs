@@ -23,6 +23,11 @@ namespace sklad
 
         private void button2_Click(object sender, EventArgs e)
         {
+            ConnOpen reportLoadM = new ConnOpen();
+            reportLoadM.connection.Open();
+            SqlCommand cReportM = new SqlCommand("SELECT DISTINCT product WHERE date<"+dateTimePicker1.Value.ToString(), reportLoadM.connection);
+            reportLoadM.connection.Close();
+            //-------
             ExcelApp.Application.Workbooks.Add(Type.Missing);
             ExcelApp.Rows.RowHeight = 15;
             Excel.Worksheet workSheet = (Excel.Worksheet)ExcelApp.ActiveSheet;
