@@ -8,16 +8,43 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Excel = Microsoft.Office.Interop.Excel;
 
 namespace sklad
 {
     public partial class Report : Form
     {
+        Excel.Application ExcelApp = new Excel.Application();
         public Report()
         {
             InitializeComponent();
         }
         int responsible, product, traffic, unit;
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            ExcelApp.Application.Workbooks.Add(Type.Missing);
+            ExcelApp.Rows.RowHeight = 15;
+            Excel.Worksheet workSheet = (Excel.Worksheet)ExcelApp.ActiveSheet;
+            //-------
+            Excel.Range range = workSheet.Range["A2", System.Type.Missing];
+            range.EntireRow.RowHeight = 30;
+            range = workSheet.Range["A3", System.Type.Missing];
+            range.EntireRow.RowHeight = 45;
+            range = workSheet.Range["A4", System.Type.Missing];
+            range.EntireRow.RowHeight = 30;
+            //-------
+            range = workSheet.Range["A1", System.Type.Missing];
+            range.EntireColumn.ColumnWidth = 4;
+            range = workSheet.Range["B1", System.Type.Missing];
+            range.EntireColumn.ColumnWidth = 25;
+            range = workSheet.Range["C1", System.Type.Missing];
+            range.EntireColumn.ColumnWidth = 6;
+            //-------
+            workSheet.get_Range("A2:A4").Merge();
+            //-------
+            ExcelApp.Visible = true;
+        }
 
         private void button1_Click(object sender, EventArgs e)
         {
