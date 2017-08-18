@@ -94,6 +94,7 @@
     <Compile Include="Inspector.Designer.cs">
       <DependentUpon>Inspector.cs</DependentUpon>
     </Compile>
+    <Compile Include="Material.cs" />
     <Compile Include="Otchet.cs">
       <SubType>Form</SubType>
     </Compile>
