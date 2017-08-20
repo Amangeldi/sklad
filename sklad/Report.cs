@@ -20,11 +20,13 @@ namespace sklad
             InitializeComponent();
         }
         int product, unit;
+        string[] c = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z","AA", "AB", "AC", "AD", "AE", "AF", "AG", "AH", "AI", "AJ", "AK", "AL", "AM", "AN", "AO", "AP", "AQ", "AR", "AS", "AT", "AU", "AV", "AW", "AX", "AY", "AZ","BA", "BB", "BC", "BD", "BE", "BF", "BG", "BH", "BI", "BJ", "BK", "BL", "BM", "BN", "BO", "BP", "BQ", "BR", "BS", "BT", "BU", "BV", "BW", "BX", "BY", "BZ" };
 
         private void button2_Click(object sender, EventArgs e)
         {
-            string sProduct, sUnit;
+            string sProduct, sUnit, cell;
             float product_quantity, price, pValue = 0, rValue = 0, sum, sPrice;
+            int girdeji = 0, cykdajy = 0;
             ConnOpen reportLoad = new ConnOpen();
             ConnOpen productLoad = new ConnOpen();
             ConnOpen unitLoad = new ConnOpen();
@@ -42,6 +44,13 @@ namespace sklad
             SqlDataReader readerUnit;
             SqlCommand commandT;
             SqlDataReader readerT;
+            SqlCommand CQPU = new SqlCommand("SELECT * FROM dbo.Users WHERE prih = 1", userLoad.connection);
+            SqlDataReader RQPU = CQPU.ExecuteReader();
+            while(RQPU.Read())
+            {
+                girdeji++;
+            }
+            girdeji = girdeji * 2+5;
             //Создали команды и датаридеры
             //-------
             ExcelApp.Application.Workbooks.Add(Type.Missing);
@@ -74,6 +83,8 @@ namespace sklad
             workSheet.get_Range("D2:D4").Merge();
             workSheet.get_Range("E2:F3").Merge();
             workSheet.get_Range("A26:B26").Merge();
+            cell ="G2:" + c[girdeji] + "2";
+            workSheet.get_Range(cell).Merge();
             //-------
             int i = 1, g = 0, n=5;
             while (i<22)
@@ -112,7 +123,6 @@ namespace sklad
                 readerT.Close();
                 sum = product_quantity + pValue - rValue;
                 sPrice = sum * price;
-                dataGridView1.Rows.Add(sProduct, sUnit, product_quantity, price, pValue, rValue, sum, sPrice);
                 ExcelApp.Cells[n, 2] = sProduct;
                 ExcelApp.Cells[n, 3] = sUnit;
                 ExcelApp.Cells[n, 4] = price;
@@ -131,11 +141,16 @@ namespace sklad
             ExcelApp.Cells[4, 5] = "sany";
             ExcelApp.Cells[4, 6] = "jemi bahasy";
             ExcelApp.Cells[26, 1] = "Jemi";
+            ExcelApp.Cells[2, 7] = "G  i  r  d  e  j  i";
             //-------
             workSheet.get_Range("A2").Orientation = 90;
             workSheet.get_Range("B2").Font.Bold = true;
             workSheet.get_Range("E2").Font.Bold = true;
             workSheet.get_Range("A26").Font.Bold = true;
+            cell = "G2:" + c[girdeji] + "2";
+            workSheet.get_Range(cell).Font.Size = 18;
+            workSheet.get_Range(cell).HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            workSheet.get_Range(cell).VerticalAlignment = Excel.XlVAlign.xlVAlignCenter;
             workSheet.get_Range("A26").HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
             workSheet.get_Range("A2:F4").HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
             workSheet.get_Range("A2:F4").VerticalAlignment = Excel.XlVAlign.xlVAlignCenter;
