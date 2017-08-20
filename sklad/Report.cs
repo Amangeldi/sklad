@@ -23,11 +23,26 @@ namespace sklad
 
         private void button2_Click(object sender, EventArgs e)
         {
-            ConnOpen reportLoadM = new ConnOpen();
-            reportLoadM.connection.Open();
-            SqlCommand cReportM = new SqlCommand("SELECT DISTINCT product WHERE date<"+dateTimePicker1.Value.ToString(), reportLoadM.connection);
-
-            reportLoadM.connection.Close();
+            string sProduct, sUnit;
+            float product_quantity, price, pValue = 0, rValue = 0, sum, sPrice;
+            ConnOpen reportLoad = new ConnOpen();
+            ConnOpen productLoad = new ConnOpen();
+            ConnOpen unitLoad = new ConnOpen();
+            ConnOpen userLoad = new ConnOpen();
+            ConnOpen tLoad = new ConnOpen();
+            reportLoad.connection.Open();
+            productLoad.connection.Open();
+            unitLoad.connection.Open();
+            userLoad.connection.Open();
+            tLoad.connection.Open();
+            //Открыли все коннекты
+            SqlCommand commandProduct = new SqlCommand("SELECT * FROM dbo.Product WHERE product_flag = '" + 1 + "'", productLoad.connection);
+            SqlDataReader readerProduct = commandProduct.ExecuteReader();
+            SqlCommand commandUnit;
+            SqlDataReader readerUnit;
+            SqlCommand commandT;
+            SqlDataReader readerT;
+            //Создали команды и датаридеры
             //-------
             ExcelApp.Application.Workbooks.Add(Type.Missing);
             ExcelApp.Rows.RowHeight = 15;
@@ -60,13 +75,54 @@ namespace sklad
             workSheet.get_Range("E2:F3").Merge();
             workSheet.get_Range("A26:B26").Merge();
             //-------
-            int i = 1, g = 0;
+            int i = 1, g = 0, n=5;
             while (i<22)
             {
                 g = i + 4;
                 ExcelApp.Cells[g, 1] = i;
                 i++;
             }
+            while (readerProduct.Read())
+            {
+                product = Convert.ToInt32(readerProduct["product_id"]);
+                sProduct = readerProduct["product_name"].ToString();
+                unit = Convert.ToInt32(readerProduct["product_unit"]);
+                price = Convert.ToSingle(readerProduct["product_price"]);
+                product_quantity = Convert.ToSingle(readerProduct["product_quantity"]);
+                //-------
+                commandUnit = new SqlCommand("SELECT * FROM dbo.Unit WHERE unit_id = '" + unit + "'", unitLoad.connection);
+                readerUnit = commandUnit.ExecuteReader();
+                readerUnit.Read();
+                sUnit = readerUnit["unit_name"].ToString();
+                readerUnit.Close();
+                //-------
+                commandT = new SqlCommand("SELECT * FROM dbo.Responsibility WHERE product = '" + product + "' AND date < '" + dateTimePicker1.Value.ToShortDateString()+"'", tLoad.connection);
+                readerT = commandT.ExecuteReader();
+                while (readerT.Read())
+                {
+                    if (readerT["traffic"].ToString() == "0" && readerT.HasRows == true)
+                    {
+                        pValue += Convert.ToInt32(readerT["product_quantity"]);
+                    }
+                    if (readerT["traffic"].ToString() == "1" && readerT.HasRows == true)
+                    {
+                        rValue += Convert.ToInt32(readerT["product_quantity"]);
+                    }
+                }
+                readerT.Close();
+                sum = product_quantity + pValue - rValue;
+                sPrice = sum * price;
+                dataGridView1.Rows.Add(sProduct, sUnit, product_quantity, price, pValue, rValue, sum, sPrice);
+                ExcelApp.Cells[n, 2] = sProduct;
+                ExcelApp.Cells[n, 3] = sUnit;
+                ExcelApp.Cells[n, 4] = price;
+                ExcelApp.Cells[n, 5] = sum;
+                ExcelApp.Cells[n, 6] = sPrice;
+                n++;
+                pValue = 0;
+                rValue = 0;
+            }
+            //-------
             ExcelApp.Cells[2, 1] = "T №";
             ExcelApp.Cells[2, 2] = "MADDY                                                                                  GYMMATLYKLARYŇ                                                                              ADY";
             ExcelApp.Cells[2, 3] = "Ölçeg birligi";
