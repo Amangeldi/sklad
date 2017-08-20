@@ -26,6 +26,7 @@ namespace sklad
             ConnOpen reportLoadM = new ConnOpen();
             reportLoadM.connection.Open();
             SqlCommand cReportM = new SqlCommand("SELECT DISTINCT product WHERE date<"+dateTimePicker1.Value.ToString(), reportLoadM.connection);
+
             reportLoadM.connection.Close();
             //-------
             ExcelApp.Application.Workbooks.Add(Type.Missing);
@@ -116,8 +117,6 @@ namespace sklad
             userLoad.connection.Open();
             tLoad.connection.Open();
             //Открыли все коннекты
-            SqlCommand commandResponsible = new SqlCommand("SELECT * FROM dbo.Responsibility", reportLoad.connection);
-            SqlDataReader readerResponsible = commandResponsible.ExecuteReader();
             SqlCommand commandProduct = new SqlCommand("SELECT * FROM dbo.Product WHERE product_flag = '" + 1 + "'", productLoad.connection);
             SqlDataReader readerProduct = commandProduct.ExecuteReader();
             SqlCommand commandUnit;
@@ -192,11 +191,11 @@ namespace sklad
                 readerT = commandT.ExecuteReader();
                 while(readerT.Read())
                 {
-                    if(readerT["traffic"].ToString() == "0")
+                    if(readerT["traffic"].ToString() == "0" && readerT.HasRows == true)
                     {
                         pValue += Convert.ToInt32(readerT["product_quantity"]);
                     }
-                    if (readerT["traffic"].ToString() == "1")
+                    if (readerT["traffic"].ToString() == "1" && readerT.HasRows == true)
                     {
                         rValue += Convert.ToInt32(readerT["product_quantity"]);
                     }
