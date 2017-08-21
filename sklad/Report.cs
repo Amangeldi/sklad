@@ -21,9 +21,14 @@ namespace sklad
         }
         int product, unit;
         string[] c = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z","AA", "AB", "AC", "AD", "AE", "AF", "AG", "AH", "AI", "AJ", "AK", "AL", "AM", "AN", "AO", "AP", "AQ", "AR", "AS", "AT", "AU", "AV", "AW", "AX", "AY", "AZ","BA", "BB", "BC", "BD", "BE", "BF", "BG", "BH", "BI", "BJ", "BK", "BL", "BM", "BN", "BO", "BP", "BQ", "BR", "BS", "BT", "BU", "BV", "BW", "BX", "BY", "BZ" };
+        string[] gh = { "G3:H3", "I3:J3", "K3:L3", "M3:N3", "O3:P3", "Q3:R3", "S3:T3", "U3:V3", "W3:X3", "Y3:Z3", "AA3:AB3", "AC3:AD3", "AE3:AF3", "AG3:AH3", "AI3:AJ3", "AK3:AL3", "AM3:AN3", "AO3:AP3", "AQ3:AR3", "AS3:AT3", "AU3:AV3", "AW3:AX3", "AY3:AZ3", "BA3:BB3", "BC3:BD3", "BE3:BF3" };
 
         private void button2_Click(object sender, EventArgs e)
         {
+            ExcelApp.Application.Workbooks.Add(Type.Missing);
+            ExcelApp.Rows.RowHeight = 15;
+            Excel.Worksheet workSheet = (Excel.Worksheet)ExcelApp.ActiveSheet;
+            //-------
             string sProduct, sUnit, cell;
             float product_quantity, price, pValue = 0, rValue = 0, sum, sPrice;
             int girdeji = 0, cykdajyb = 0, cykdajys = 0;
@@ -49,7 +54,13 @@ namespace sklad
             //Создали команды и датаридеры
             while (RQPU.Read())
             {
+                cell = gh[girdeji];
+                workSheet.get_Range(cell).Merge();
                 girdeji++;
+                workSheet.get_Range(cell).Borders[Excel.XlBordersIndex.xlEdgeLeft].LineStyle = Excel.XlLineStyle.xlContinuous;
+                workSheet.get_Range(cell).Borders[Excel.XlBordersIndex.xlEdgeTop].LineStyle = Excel.XlLineStyle.xlContinuous;
+                workSheet.get_Range(cell).Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlContinuous;
+                workSheet.get_Range(cell).Borders[Excel.XlBordersIndex.xlEdgeRight].LineStyle = Excel.XlLineStyle.xlContinuous;
             }
             girdeji = girdeji * 2+5;
             userLoad.connection.Close();
@@ -58,16 +69,13 @@ namespace sklad
             SqlDataReader RQRU = CQRU.ExecuteReader();
             while (RQRU.Read())
             {
-                cykdajys=cykdajys+2;
+                cykdajys++;
             }
             cykdajyb = girdeji+3;
-            cykdajys = cykdajyb + cykdajys-1;
+            cykdajys = cykdajyb + cykdajys*2-1;
             userLoad.connection.Close();
             //-------
-            ExcelApp.Application.Workbooks.Add(Type.Missing);
-            ExcelApp.Rows.RowHeight = 15;
-            Excel.Worksheet workSheet = (Excel.Worksheet)ExcelApp.ActiveSheet;
-            //-------
+            
             Excel.Range range = workSheet.Range["A2", System.Type.Missing];
             range.EntireRow.RowHeight = 30;
             range = workSheet.Range["A3", System.Type.Missing];
