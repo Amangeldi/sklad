@@ -26,7 +26,7 @@ namespace sklad
         {
             string sProduct, sUnit, cell;
             float product_quantity, price, pValue = 0, rValue = 0, sum, sPrice;
-            int girdeji = 0, cykdajy = 0;
+            int girdeji = 0, cykdajyb = 0, cykdajys = 0;
             ConnOpen reportLoad = new ConnOpen();
             ConnOpen productLoad = new ConnOpen();
             ConnOpen unitLoad = new ConnOpen();
@@ -46,12 +46,23 @@ namespace sklad
             SqlDataReader readerT;
             SqlCommand CQPU = new SqlCommand("SELECT * FROM dbo.Users WHERE prih = 1", userLoad.connection);
             SqlDataReader RQPU = CQPU.ExecuteReader();
-            while(RQPU.Read())
+            //Создали команды и датаридеры
+            while (RQPU.Read())
             {
                 girdeji++;
             }
             girdeji = girdeji * 2+5;
-            //Создали команды и датаридеры
+            userLoad.connection.Close();
+            userLoad.connection.Open();
+            SqlCommand CQRU = new SqlCommand("SELECT * FROM dbo.Users WHERE rash = 1", userLoad.connection);
+            SqlDataReader RQRU = CQRU.ExecuteReader();
+            while (RQRU.Read())
+            {
+                cykdajys=cykdajys+2;
+            }
+            cykdajyb = girdeji+3;
+            cykdajys = cykdajyb + cykdajys-1;
+            userLoad.connection.Close();
             //-------
             ExcelApp.Application.Workbooks.Add(Type.Missing);
             ExcelApp.Rows.RowHeight = 15;
@@ -84,6 +95,8 @@ namespace sklad
             workSheet.get_Range("E2:F3").Merge();
             workSheet.get_Range("A26:B26").Merge();
             cell ="G2:" + c[girdeji] + "2";
+            workSheet.get_Range(cell).Merge();
+            cell = c[cykdajyb] + "2:" + c[cykdajys] + "2";
             workSheet.get_Range(cell).Merge();
             //-------
             int i = 1, g = 0, n=5;
@@ -132,7 +145,13 @@ namespace sklad
                 pValue = 0;
                 rValue = 0;
             }
+            reportLoad.connection.Close();
+            productLoad.connection.Close();
+            unitLoad.connection.Close();
+            userLoad.connection.Close();
+            tLoad.connection.Close();
             //-------
+            n = cykdajyb + 1;
             ExcelApp.Cells[2, 1] = "T №";
             ExcelApp.Cells[2, 2] = "MADDY                                                                                  GYMMATLYKLARYŇ                                                                              ADY";
             ExcelApp.Cells[2, 3] = "Ölçeg birligi";
@@ -142,6 +161,7 @@ namespace sklad
             ExcelApp.Cells[4, 6] = "jemi bahasy";
             ExcelApp.Cells[26, 1] = "Jemi";
             ExcelApp.Cells[2, 7] = "G  i  r  d  e  j  i";
+            ExcelApp.Cells[2, n] = "Ç  y  k  d  a  j  y";
             //-------
             workSheet.get_Range("A2").Orientation = 90;
             workSheet.get_Range("B2").Font.Bold = true;
@@ -149,6 +169,12 @@ namespace sklad
             workSheet.get_Range("A26").Font.Bold = true;
             cell = "G2:" + c[girdeji] + "2";
             workSheet.get_Range(cell).Font.Size = 18;
+            cell = c[cykdajyb] + "2:" + c[cykdajys] + "2";
+            workSheet.get_Range(cell).Font.Size = 18;
+            cell = "G2:" + c[girdeji] + "2";
+            workSheet.get_Range(cell).HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            workSheet.get_Range(cell).VerticalAlignment = Excel.XlVAlign.xlVAlignCenter;
+            cell = c[cykdajyb] + "2:" + c[cykdajys] + "2";
             workSheet.get_Range(cell).HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
             workSheet.get_Range(cell).VerticalAlignment = Excel.XlVAlign.xlVAlignCenter;
             workSheet.get_Range("A26").HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
@@ -161,6 +187,16 @@ namespace sklad
             workSheet.get_Range("A2:F26").Borders[Excel.XlBordersIndex.xlEdgeRight].LineStyle = Excel.XlLineStyle.xlContinuous;
             workSheet.get_Range("A2:F26").Borders[Excel.XlBordersIndex.xlInsideVertical].LineStyle = Excel.XlLineStyle.xlContinuous;
             workSheet.get_Range("A2:F26").Borders[Excel.XlBordersIndex.xlInsideHorizontal].LineStyle = Excel.XlLineStyle.xlContinuous;
+            cell = "G2:" + c[girdeji] + "2";
+            workSheet.get_Range(cell).Borders[Excel.XlBordersIndex.xlEdgeLeft].LineStyle = Excel.XlLineStyle.xlContinuous;
+            workSheet.get_Range(cell).Borders[Excel.XlBordersIndex.xlEdgeTop].LineStyle = Excel.XlLineStyle.xlContinuous;
+            workSheet.get_Range(cell).Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlContinuous;
+            workSheet.get_Range(cell).Borders[Excel.XlBordersIndex.xlEdgeRight].LineStyle = Excel.XlLineStyle.xlContinuous;
+            cell = c[cykdajyb] + "2:" + c[cykdajys] + "2";
+            workSheet.get_Range(cell).Borders[Excel.XlBordersIndex.xlEdgeLeft].LineStyle = Excel.XlLineStyle.xlContinuous;
+            workSheet.get_Range(cell).Borders[Excel.XlBordersIndex.xlEdgeTop].LineStyle = Excel.XlLineStyle.xlContinuous;
+            workSheet.get_Range(cell).Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlContinuous;
+            workSheet.get_Range(cell).Borders[Excel.XlBordersIndex.xlEdgeRight].LineStyle = Excel.XlLineStyle.xlContinuous;
             //-------
             ExcelApp.Visible = true;
         }
