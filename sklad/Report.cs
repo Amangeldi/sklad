@@ -52,6 +52,7 @@ namespace sklad
             SqlCommand CQPU = new SqlCommand("SELECT * FROM dbo.Users WHERE prih = 1", userLoad.connection);
             SqlDataReader RQPU = CQPU.ExecuteReader();
             //Создали команды и датаридеры
+            int q = 7, u;
             while (RQPU.Read())
             {
                 cell = gh[girdeji];
@@ -61,6 +62,24 @@ namespace sklad
                 workSheet.get_Range(cell).Borders[Excel.XlBordersIndex.xlEdgeTop].LineStyle = Excel.XlLineStyle.xlContinuous;
                 workSheet.get_Range(cell).Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlContinuous;
                 workSheet.get_Range(cell).Borders[Excel.XlBordersIndex.xlEdgeRight].LineStyle = Excel.XlLineStyle.xlContinuous;
+                u = q + 1;
+                ExcelApp.Cells[4, q] = "sany";
+                ExcelApp.Cells[4, u] = "jemi bahasy";
+                cell = c[q - 1] + "4:" + c[q - 1] + "26";
+                workSheet.get_Range(cell).Borders[Excel.XlBordersIndex.xlEdgeLeft].LineStyle = Excel.XlLineStyle.xlContinuous;
+                workSheet.get_Range(cell).Borders[Excel.XlBordersIndex.xlEdgeTop].LineStyle = Excel.XlLineStyle.xlContinuous;
+                workSheet.get_Range(cell).Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlContinuous;
+                workSheet.get_Range(cell).Borders[Excel.XlBordersIndex.xlEdgeRight].LineStyle = Excel.XlLineStyle.xlContinuous;
+                workSheet.get_Range(cell).Borders[Excel.XlBordersIndex.xlInsideVertical].LineStyle = Excel.XlLineStyle.xlContinuous;
+                workSheet.get_Range(cell).Borders[Excel.XlBordersIndex.xlInsideHorizontal].LineStyle = Excel.XlLineStyle.xlContinuous;
+                cell = c[q] + "4:" + c[q] + "26";
+                workSheet.get_Range(cell).Borders[Excel.XlBordersIndex.xlEdgeLeft].LineStyle = Excel.XlLineStyle.xlContinuous;
+                workSheet.get_Range(cell).Borders[Excel.XlBordersIndex.xlEdgeTop].LineStyle = Excel.XlLineStyle.xlContinuous;
+                workSheet.get_Range(cell).Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlContinuous;
+                workSheet.get_Range(cell).Borders[Excel.XlBordersIndex.xlEdgeRight].LineStyle = Excel.XlLineStyle.xlContinuous;
+                workSheet.get_Range(cell).Borders[Excel.XlBordersIndex.xlInsideVertical].LineStyle = Excel.XlLineStyle.xlContinuous;
+                workSheet.get_Range(cell).Borders[Excel.XlBordersIndex.xlInsideHorizontal].LineStyle = Excel.XlLineStyle.xlContinuous;
+                q = q + 2;
             }
             girdeji = girdeji * 2+5;
             userLoad.connection.Close();
@@ -195,6 +214,8 @@ namespace sklad
             workSheet.get_Range("A2:F4").HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
             workSheet.get_Range("A2:F4").VerticalAlignment = Excel.XlVAlign.xlVAlignCenter;
             workSheet.get_Range("A2:F4").WrapText = true;
+            workSheet.get_Range("D5:D26").NumberFormat = "#,##0.00_);[Red](#,##0.00)";
+            workSheet.get_Range("F5:F26").NumberFormat = "#,##0.00_);[Red](#,##0.00)";
             workSheet.get_Range("A2:F26").Borders[Excel.XlBordersIndex.xlEdgeLeft].LineStyle = Excel.XlLineStyle.xlContinuous;
             workSheet.get_Range("A2:F26").Borders[Excel.XlBordersIndex.xlEdgeTop].LineStyle = Excel.XlLineStyle.xlContinuous;
             workSheet.get_Range("A2:F26").Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlContinuous;
