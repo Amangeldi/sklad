@@ -69,6 +69,12 @@ namespace sklad
             SqlDataReader RQRU = CQRU.ExecuteReader();
             while (RQRU.Read())
             {
+                cell = gh[(girdeji - 5) / 2 + 1 + cykdajys];
+                workSheet.get_Range(cell).Merge();
+                workSheet.get_Range(cell).Borders[Excel.XlBordersIndex.xlEdgeLeft].LineStyle = Excel.XlLineStyle.xlContinuous;
+                workSheet.get_Range(cell).Borders[Excel.XlBordersIndex.xlEdgeTop].LineStyle = Excel.XlLineStyle.xlContinuous;
+                workSheet.get_Range(cell).Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlContinuous;
+                workSheet.get_Range(cell).Borders[Excel.XlBordersIndex.xlEdgeRight].LineStyle = Excel.XlLineStyle.xlContinuous;
                 cykdajys++;
             }
             cykdajyb = girdeji+3;
