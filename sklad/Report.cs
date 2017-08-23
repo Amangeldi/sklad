@@ -195,6 +195,10 @@ namespace sklad
             workSheet.get_Range(cell).Borders[Excel.XlBordersIndex.xlEdgeRight].LineStyle = Excel.XlLineStyle.xlContinuous;
             workSheet.get_Range(cell).Borders[Excel.XlBordersIndex.xlInsideVertical].LineStyle = Excel.XlLineStyle.xlContinuous;
             workSheet.get_Range(cell).Borders[Excel.XlBordersIndex.xlInsideHorizontal].LineStyle = Excel.XlLineStyle.xlContinuous;
+            cell = "G2:" + c[q] + "4";
+            workSheet.get_Range(cell).HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            workSheet.get_Range(cell).VerticalAlignment = Excel.XlVAlign.xlVAlignCenter;
+            workSheet.get_Range(cell).WrapText = true;
             //-------
             cykdajyb = girdeji+3;
             cykdajys = cykdajyb + cykdajys*2-1;
