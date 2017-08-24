@@ -136,9 +136,16 @@ namespace sklad
             q = q + 2;
             girdeji = girdeji * 2+5;
             userLoad.connection.Close();
+            
             userLoad.connection.Open();
-            SqlCommand CQRU = new SqlCommand("SELECT * FROM dbo.Users WHERE rash = 1", userLoad.connection);
+            userLoad2.connection.Open();
+            userLoad3.connection.Open();
+            SqlCommand CQRU = new SqlCommand("SELECT DISTINCT waybill FROM dbo.Responsibility WHERE traffic = '1' AND date > '" + dateTimePicker1.Value.ToShortDateString() + "' AND date < '" + dateTimePicker2.Value.ToShortDateString() + "'", userLoad.connection);
             SqlDataReader RQRU = CQRU.ExecuteReader();
+            SqlCommand CQRU2;
+            SqlDataReader RQRU2;
+            SqlCommand CUR;
+            SqlDataReader RUR;
             while (RQRU.Read())
             {
                 cell = gh[(girdeji - 5) / 2 + 1 + cykdajys];
@@ -151,8 +158,22 @@ namespace sklad
                 u = q + 1;
                 ExcelApp.Cells[4, q] = "sany";
                 ExcelApp.Cells[4, u] = "jemi bahasy";
-                ExcelApp.Cells[3, q] = RQRU["fio"].ToString();
                 cell = c[q - 1] + "4:" + c[q - 1] + "26";
+                userLoad2.connection.Close();
+                userLoad2.connection.Open();
+                CQRU2 = new SqlCommand("SELECT * FROM dbo.Responsibility WHERE waybill = '" + RQRU["waybill"].ToString() + "'", userLoad2.connection);
+                RQRU2 = CQRU2.ExecuteReader();
+                RQRU2.Read();
+                resp = RQRU2["responsible"].ToString();
+                CUR = new SqlCommand("SELECT * FROM dbo.Users WHERE user_id = '" + resp + "'", userLoad3.connection);
+                RUR = CUR.ExecuteReader();
+                RUR.Read();
+                fi = RUR["fio"].ToString();
+                fi = fi.Remove(fi.IndexOf(' ') + 2);
+                ExcelApp.Cells[3, q] = RUR["place_of_work"].ToString() + " " + fi + " Nakl № " + RQRU["waybill"].ToString();
+                RUR.Close();
+                RQRU2.Close();
+                userLoad2.connection.Close();
                 workSheet.get_Range(cell).Borders[Excel.XlBordersIndex.xlEdgeLeft].LineStyle = Excel.XlLineStyle.xlContinuous;
                 workSheet.get_Range(cell).Borders[Excel.XlBordersIndex.xlEdgeTop].LineStyle = Excel.XlLineStyle.xlContinuous;
                 workSheet.get_Range(cell).Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlContinuous;
