@@ -29,18 +29,22 @@ namespace sklad
             ExcelApp.Rows.RowHeight = 15;
             Excel.Worksheet workSheet = (Excel.Worksheet)ExcelApp.ActiveSheet;
             //-------
-            string sProduct, sUnit, cell;
+            string sProduct, sUnit, cell, resp = "", fi = "";
             float product_quantity, price, pValue = 0, rValue = 0, sum, sPrice;
             int girdeji = 0, cykdajyb = 0, cykdajys = 0;
             ConnOpen reportLoad = new ConnOpen();
             ConnOpen productLoad = new ConnOpen();
             ConnOpen unitLoad = new ConnOpen();
             ConnOpen userLoad = new ConnOpen();
+            ConnOpen userLoad2 = new ConnOpen();
+            ConnOpen userLoad3 = new ConnOpen();
             ConnOpen tLoad = new ConnOpen();
             reportLoad.connection.Open();
             productLoad.connection.Open();
             unitLoad.connection.Open();
             userLoad.connection.Open();
+            userLoad2.connection.Open();
+            userLoad3.connection.Open();
             tLoad.connection.Open();
             //Открыли все коннекты
             SqlCommand commandProduct = new SqlCommand("SELECT * FROM dbo.Product WHERE product_flag = '" + 1 + "'", productLoad.connection);
@@ -49,8 +53,12 @@ namespace sklad
             SqlDataReader readerUnit;
             SqlCommand commandT;
             SqlDataReader readerT;
-            SqlCommand CQPU = new SqlCommand("SELECT * FROM dbo.Users WHERE prih = 1", userLoad.connection);
+            SqlCommand CQPU = new SqlCommand("SELECT DISTINCT waybill FROM dbo.Responsibility WHERE traffic = '0' AND date > '" + dateTimePicker1.Value.ToShortDateString() + "' AND date < '" + dateTimePicker2.Value.ToShortDateString() + "'", userLoad.connection);
             SqlDataReader RQPU = CQPU.ExecuteReader();
+            SqlCommand CQPU2;
+            SqlDataReader RQPU2;
+            SqlCommand CUP;
+            SqlDataReader RUP;
             //Создали команды и датаридеры
             int q = 7, u;
             while (RQPU.Read())
@@ -65,8 +73,23 @@ namespace sklad
                 u = q + 1;
                 ExcelApp.Cells[4, q] = "sany";
                 ExcelApp.Cells[4, u] = "jemi bahasy";
-                ExcelApp.Cells[3, q] = RQPU["fio"].ToString();
+                userLoad2.connection.Close();
+                userLoad2.connection.Open();
+                CQPU2 = new SqlCommand("SELECT * FROM dbo.Responsibility WHERE waybill = '"+RQPU["waybill"].ToString()+"'", userLoad2.connection);
+                RQPU2 = CQPU2.ExecuteReader();
+                RQPU2.Read();
+                resp = RQPU2["responsible"].ToString();
+                CUP = new SqlCommand("SELECT * FROM dbo.Users WHERE user_id = '" + resp +"'", userLoad3.connection);
+                RUP = CUP.ExecuteReader();
+                RUP.Read();
+                fi = RUP["fio"].ToString();
+                fi = fi.Remove(fi.IndexOf(' ') + 2);
+                ExcelApp.Cells[3, q] =RUP["place_of_work"].ToString()+" " + fi + " Nakl № " + RQPU["waybill"].ToString();
+                RUP.Close();
+                RQPU2.Close();
+                userLoad2.connection.Close();
                 cell = c[q - 1] + "4:" + c[q - 1] + "26";
+                userLoad2.connection.Close();
                 workSheet.get_Range(cell).Borders[Excel.XlBordersIndex.xlEdgeLeft].LineStyle = Excel.XlLineStyle.xlContinuous;
                 workSheet.get_Range(cell).Borders[Excel.XlBordersIndex.xlEdgeTop].LineStyle = Excel.XlLineStyle.xlContinuous;
                 workSheet.get_Range(cell).Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlContinuous;
@@ -82,6 +105,8 @@ namespace sklad
                 workSheet.get_Range(cell).Borders[Excel.XlBordersIndex.xlInsideHorizontal].LineStyle = Excel.XlLineStyle.xlContinuous;
                 q = q + 2;
             }
+            userLoad2.connection.Close();
+            userLoad3.connection.Close();
             u = q + 1;
             ExcelApp.Cells[4, q] = "sany";
             ExcelApp.Cells[4, u] = "jemi bahasy";
