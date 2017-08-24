@@ -22,9 +22,9 @@ namespace sklad
 
         private void Otchet_Load(object sender, EventArgs e)
         {
-            int responsible, product, traffic, unit;
-            string sResponsible, sUnit, location, date, dateChas, dateMin, waybill;
-            float product_quantity, price, rProduct_quantity, pValue = 0, rValue = 0, sum, sPrice;
+            int responsible, product;
+            string sResponsible, location, date, dateChas, dateMin, waybill;
+            float product_quantity;
             ConnOpen proLoad = new ConnOpen();
             ConnOpen resLoad = new ConnOpen();
             ConnOpen userLoad = new ConnOpen();
