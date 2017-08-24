@@ -65,6 +65,7 @@ namespace sklad
                 u = q + 1;
                 ExcelApp.Cells[4, q] = "sany";
                 ExcelApp.Cells[4, u] = "jemi bahasy";
+                ExcelApp.Cells[3, q] = RQPU["fio"].ToString();
                 cell = c[q - 1] + "4:" + c[q - 1] + "26";
                 workSheet.get_Range(cell).Borders[Excel.XlBordersIndex.xlEdgeLeft].LineStyle = Excel.XlLineStyle.xlContinuous;
                 workSheet.get_Range(cell).Borders[Excel.XlBordersIndex.xlEdgeTop].LineStyle = Excel.XlLineStyle.xlContinuous;
