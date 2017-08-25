@@ -22,6 +22,8 @@ namespace sklad
         int product, unit;
         string[] c = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z","AA", "AB", "AC", "AD", "AE", "AF", "AG", "AH", "AI", "AJ", "AK", "AL", "AM", "AN", "AO", "AP", "AQ", "AR", "AS", "AT", "AU", "AV", "AW", "AX", "AY", "AZ","BA", "BB", "BC", "BD", "BE", "BF", "BG", "BH", "BI", "BJ", "BK", "BL", "BM", "BN", "BO", "BP", "BQ", "BR", "BS", "BT", "BU", "BV", "BW", "BX", "BY", "BZ" };
         string[] gh = { "G3:H3", "I3:J3", "K3:L3", "M3:N3", "O3:P3", "Q3:R3", "S3:T3", "U3:V3", "W3:X3", "Y3:Z3", "AA3:AB3", "AC3:AD3", "AE3:AF3", "AG3:AH3", "AI3:AJ3", "AK3:AL3", "AM3:AN3", "AO3:AP3", "AQ3:AR3", "AS3:AT3", "AU3:AV3", "AW3:AX3", "AY3:AZ3", "BA3:BB3", "BC3:BD3", "BE3:BF3" };
+        string[] y = { "G", "I", "K", "M", "O", "Q", "S", "U", "W", "Y", "AA", "AC", "AE", "AG", "AI", "AK", "AM", "AO", "AQ", "AS", "AU", "AW", "AY", "BA", "BC", "BE", "BG", "BI", "BK", "BM", "BO", "BQ", "BS", "BU", "BW", "BY", "CA", "CC", "CE", "CG", "CI", "CK", "CM", "CO", "CQ", "CS", "CU", "CW", "CY" };
+        string[] a = { "H", "J", "L", "N", "P", "R", "T", "V", "X", "Z", "AB", "AD", "AF", "AH", "AJ", "AL", "AN", "AP", "AR", "AT", "AV", "AX", "AZ", "BB", "BD", "BF", "BH", "BJ", "BL", "BN", "BP", "BR", "BT", "BV", "BX", "BZ", "CB", "CD", "CF", "CH", "CJ", "CL", "CN", "CP", "CR", "CT", "CV", "CX", "CZ" };
 
         private void button2_Click(object sender, EventArgs e)
         {
@@ -29,7 +31,7 @@ namespace sklad
             ExcelApp.Rows.RowHeight = 15;
             Excel.Worksheet workSheet = (Excel.Worksheet)ExcelApp.ActiveSheet;
             //-------
-            string sProduct, sUnit, cell, resp = "", fi = "";
+            string sProduct, sUnit, cell, resp = "", fi = "", GJS = "", GJB ="", CJS = "", CJB="";
             float product_quantity, price, pValue = 0, rValue = 0, sum, sPrice;
             int girdeji = 0, cykdajyb = 0, cykdajys = 0;
             ConnOpen reportLoad = new ConnOpen();
@@ -60,7 +62,7 @@ namespace sklad
             SqlCommand CUP;
             SqlDataReader RUP;
             //Создали команды и датаридеры
-            int q = 7, u;
+            int q = 7, u, t=4;
             while (RQPU.Read())
             {
                 cell = gh[girdeji];
@@ -73,6 +75,12 @@ namespace sklad
                 u = q + 1;
                 ExcelApp.Cells[4, q] = "sany";
                 ExcelApp.Cells[4, u] = "jemi bahasy";
+                while(t!=26)
+                {
+                    t++;
+                    ExcelApp.Cells[t, u] = "=D"+t+"*"+c[q-1]+t;
+                }
+                t = 4;
                 userLoad2.connection.Close();
                 userLoad2.connection.Open();
                 CQPU2 = new SqlCommand("SELECT * FROM dbo.Responsibility WHERE waybill = '"+RQPU["waybill"].ToString()+"'", userLoad2.connection);
@@ -105,9 +113,50 @@ namespace sklad
                 workSheet.get_Range(cell).Borders[Excel.XlBordersIndex.xlInsideHorizontal].LineStyle = Excel.XlLineStyle.xlContinuous;
                 q = q + 2;
             }
+            int o = 0;
+            string p = "=";
+            u = q + 1;
+            while (t != 26)
+            {
+                t++;
+                o = 0;
+                p = "=";
+                while (o<girdeji)
+                {
+                    p += y[o]+t;
+                    if(o+1!=girdeji)
+                    {
+                        p += "+";
+                    }
+                    o++;
+                }
+                ExcelApp.Cells[t, q] = p;
+            }
+            GJS = c[q - 1];
+            GJB = c[q];
+            //this.Text = GJS + GJB;
+            t = 4;
+            o = 0;
+            p = "=";
+            while (t != 26)
+            {
+                t++;
+                o = 0;
+                p = "=";
+                while (o < girdeji)
+                {
+                    p += a[o] + t;
+                    if (o + 1 != girdeji)
+                    {
+                        p += "+";
+                    }
+                    o++;
+                }
+                ExcelApp.Cells[t, u] = p;
+            }
+            t = 4;
             userLoad2.connection.Close();
             userLoad3.connection.Close();
-            u = q + 1;
             ExcelApp.Cells[4, q] = "sany";
             ExcelApp.Cells[4, u] = "jemi bahasy";
             cell = c[q - 1] + "2:" + c[q] + "3";
@@ -158,6 +207,12 @@ namespace sklad
                 u = q + 1;
                 ExcelApp.Cells[4, q] = "sany";
                 ExcelApp.Cells[4, u] = "jemi bahasy";
+                while (t != 26)
+                {
+                    t++;
+                    ExcelApp.Cells[t, u] = "=D" + t + "*" + c[q - 1] + t;
+                }
+                t = 4;
                 cell = c[q - 1] + "4:" + c[q - 1] + "26";
                 userLoad2.connection.Close();
                 userLoad2.connection.Open();
@@ -189,9 +244,53 @@ namespace sklad
                 workSheet.get_Range(cell).Borders[Excel.XlBordersIndex.xlInsideHorizontal].LineStyle = Excel.XlLineStyle.xlContinuous;
                 q = q + 2;
             }
+
             u = q + 1;
+            t = 4;
+            o = cykdajyb;
+            p = "=";
+            while (t != 26)
+            {
+                t++;
+                o = cykdajyb;
+                p = "=";
+                while (o < cykdajys)
+                {
+                    p += y[o+(girdeji-3)/2] + t;
+                    if (o + 1 != cykdajys)
+                    {
+                        p += "+";
+                    }
+                    o++;
+                }
+                ExcelApp.Cells[t, q] = p;
+            }
+            CJS = c[q - 1];
+            CJB = c[q];
+            //this.Text = GJS + GJB + CJS + CJB;
+            t = 4;
+            o = cykdajyb;
+            p = "=";
+            while (t != 26)
+            {
+                t++;
+                o = cykdajyb;
+                p = "=";
+                while (o < cykdajys)
+                {
+                    p += a[o + (girdeji - 3) / 2] + t;
+                    if (o + 1 != cykdajys)
+                    {
+                        p += "+";
+                    }
+                    o++;
+                }
+                ExcelApp.Cells[t, u] = p;
+            }
+           
             ExcelApp.Cells[4, q] = "sany";
             ExcelApp.Cells[4, u] = "jemi bahasy";
+            
             cell = c[q - 1] + "2:" + c[q] + "3";
             workSheet.get_Range(cell).Merge();
             ExcelApp.Cells[2, q] = "ÇYKDAJYLARYŇ JEMI";
@@ -215,9 +314,21 @@ namespace sklad
             workSheet.get_Range(cell).Borders[Excel.XlBordersIndex.xlEdgeRight].LineStyle = Excel.XlLineStyle.xlContinuous;
             workSheet.get_Range(cell).Borders[Excel.XlBordersIndex.xlInsideVertical].LineStyle = Excel.XlLineStyle.xlContinuous;
             workSheet.get_Range(cell).Borders[Excel.XlBordersIndex.xlInsideHorizontal].LineStyle = Excel.XlLineStyle.xlContinuous;
-            //-------
+            //-----------------------------
             q = q + 2;
             u = q + 1;
+            t = 4;
+            p = "=";
+            while (t != 26)
+            {
+                t++;
+                p += "E" + t + "+" + GJS + t + "-" + CJS + t;
+                ExcelApp.Cells[t, q] = p;
+                p = "=";
+                p += "F" +t+ "+" + GJB + t + "-" + CJB + t;
+                ExcelApp.Cells[t, u] = p;
+                p = "=";
+            }
             ExcelApp.Cells[4, q] = "sany";
             ExcelApp.Cells[4, u] = "jemi bahasy";
             cell = c[q - 1] + "2:" + c[q] + "3";
@@ -250,6 +361,7 @@ namespace sklad
             //-------
             cykdajyb = girdeji+3;
             cykdajys = cykdajyb + cykdajys*2-1;
+            
             userLoad.connection.Close();
             //-------
             
