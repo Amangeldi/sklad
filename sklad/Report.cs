@@ -93,7 +93,7 @@ namespace sklad
                 t = 4;
                 userLoad2.connection.Close();
                 userLoad2.connection.Open();
-                CQPU2 = new SqlCommand("SELECT * FROM dbo.Responsibility WHERE waybill = '"+RQPU["waybill"].ToString()+"'", userLoad2.connection);
+                CQPU2 = new SqlCommand("SELECT * FROM dbo.Responsibility WHERE waybill = '" + RQPU["waybill"].ToString() + "' AND date > '" + dateTimePicker1.Value.ToShortDateString() + "' AND date < '" + dateTimePicker2.Value.ToShortDateString()+"' AND traffic='0'", userLoad2.connection);
                 RQPU2 = CQPU2.ExecuteReader();
                 RQPU2.Read();
                 resp = RQPU2["responsible"].ToString();
@@ -445,9 +445,12 @@ namespace sklad
                     }
                 }
                 int s = 0;
+                int j = 0;
                 while (s+1 < (girdeji-3)/2)
                 {
-                    int d = s + 7;
+                    
+                    int d =  7+j;
+                    j = j + 2;
                     Excel.Range ObjE = workSheet.get_Range(y[s] + "3", Type.Missing);
                     nakl = Convert.ToString(ObjE.Value2);
                     nakl = no(nakl).ToString();
@@ -461,7 +464,25 @@ namespace sklad
                     rnakl.Close();
                     s++;
                 }
-
+                s++;
+                j = j + 2;
+                while (s+1 < (cykdajys/2)-1)
+                {
+                    int d = j + 7;
+                    j = j + 2;
+                    Excel.Range ObjE = workSheet.get_Range(y[s] + "3", Type.Missing);
+                    nakl = Convert.ToString(ObjE.Value2);
+                    nakl = no(nakl).ToString();
+                    cnakl = new SqlCommand("SELECT * FROM dbo.Responsibility WHERE product = '" + product + "' AND waybill = '" + nakl + "'", nakladnoj.connection);
+                    rnakl = cnakl.ExecuteReader();
+                    rnakl.Read();
+                    if (rnakl.HasRows == true)
+                    {
+                        ExcelApp.Cells[n, d] = rnakl["product_quantity"].ToString();
+                    }
+                    rnakl.Close();
+                    s++;
+                }
                 readerT.Close();
                 sum = product_quantity + pValue - rValue;
                 sPrice = sum * price;
