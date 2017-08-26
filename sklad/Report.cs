@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
@@ -15,6 +16,15 @@ namespace sklad
     public partial class Report : Form
     {
         Excel.Application ExcelApp = new Excel.Application();
+        int no(string text)
+        {
+            int n = 0;
+            string pattern = @"(\d+)$";
+            Regex regex = new Regex(pattern);
+            Match match = regex.Match(text);
+            n = Convert.ToInt32(match.ToString());
+            return n;
+        }
         public Report()
         {
             InitializeComponent();
@@ -31,7 +41,7 @@ namespace sklad
             ExcelApp.Rows.RowHeight = 15;
             Excel.Worksheet workSheet = (Excel.Worksheet)ExcelApp.ActiveSheet;
             //-------
-            string sProduct, sUnit, cell, resp = "", fi = "", GJS = "", GJB ="", CJS = "", CJB="";
+            string sProduct, sUnit, cell, resp = "", fi = "", GJS = "", GJB ="", CJS = "", CJB="", nakl;
             float product_quantity, price, pValue = 0, rValue = 0, sum, sPrice;
             int girdeji = 0, cykdajyb = 0, cykdajys = 0;
             ConnOpen reportLoad = new ConnOpen();
@@ -83,7 +93,7 @@ namespace sklad
                 t = 4;
                 userLoad2.connection.Close();
                 userLoad2.connection.Open();
-                CQPU2 = new SqlCommand("SELECT * FROM dbo.Responsibility WHERE waybill = '"+RQPU["waybill"].ToString()+"'", userLoad2.connection);
+                CQPU2 = new SqlCommand("SELECT * FROM dbo.Responsibility WHERE waybill = '" + RQPU["waybill"].ToString() + "' AND date > '" + dateTimePicker1.Value.ToShortDateString() + "' AND date < '" + dateTimePicker2.Value.ToShortDateString()+"' AND traffic='0'", userLoad2.connection);
                 RQPU2 = CQPU2.ExecuteReader();
                 RQPU2.Read();
                 resp = RQPU2["responsible"].ToString();
@@ -403,6 +413,10 @@ namespace sklad
                 ExcelApp.Cells[g, 1] = i;
                 i++;
             }
+            ConnOpen nakladnoj = new ConnOpen();
+            nakladnoj.connection.Open();
+            SqlCommand cnakl;
+            SqlDataReader rnakl ;
             while (readerProduct.Read())
             {
                 product = Convert.ToInt32(readerProduct["product_id"]);
@@ -430,6 +444,45 @@ namespace sklad
                         rValue += Convert.ToInt32(readerT["product_quantity"]);
                     }
                 }
+                int s = 0;
+                int j = 0;
+                while (s+1 < (girdeji-3)/2)
+                {
+                    
+                    int d =  7+j;
+                    j = j + 2;
+                    Excel.Range ObjE = workSheet.get_Range(y[s] + "3", Type.Missing);
+                    nakl = Convert.ToString(ObjE.Value2);
+                    nakl = no(nakl).ToString();
+                    cnakl = new SqlCommand("SELECT * FROM dbo.Responsibility WHERE product = '" + product + "' AND waybill = '"+nakl+"'", nakladnoj.connection);
+                    rnakl = cnakl.ExecuteReader();
+                    rnakl.Read();
+                    if(rnakl.HasRows == true)
+                    {
+                        ExcelApp.Cells[n, d] = rnakl["product_quantity"].ToString();
+                    }
+                    rnakl.Close();
+                    s++;
+                }
+                s++;
+                j = j + 2;
+                while (s+1 < (cykdajys/2)-1)
+                {
+                    int d = j + 7;
+                    j = j + 2;
+                    Excel.Range ObjE = workSheet.get_Range(y[s] + "3", Type.Missing);
+                    nakl = Convert.ToString(ObjE.Value2);
+                    nakl = no(nakl).ToString();
+                    cnakl = new SqlCommand("SELECT * FROM dbo.Responsibility WHERE product = '" + product + "' AND waybill = '" + nakl + "'", nakladnoj.connection);
+                    rnakl = cnakl.ExecuteReader();
+                    rnakl.Read();
+                    if (rnakl.HasRows == true)
+                    {
+                        ExcelApp.Cells[n, d] = rnakl["product_quantity"].ToString();
+                    }
+                    rnakl.Close();
+                    s++;
+                }
                 readerT.Close();
                 sum = product_quantity + pValue - rValue;
                 sPrice = sum * price;
@@ -447,6 +500,7 @@ namespace sklad
             unitLoad.connection.Close();
             userLoad.connection.Close();
             tLoad.connection.Close();
+            nakladnoj.connection.Close();
             //-------
             n = cykdajyb + 1;
             ExcelApp.Cells[2, 1] = "T №";
@@ -498,6 +552,13 @@ namespace sklad
             workSheet.get_Range(cell).Borders[Excel.XlBordersIndex.xlEdgeRight].LineStyle = Excel.XlLineStyle.xlContinuous;
             //-------
             ExcelApp.Visible = true;
+            //int s = 0;
+            //while (s < girdeji)
+            //{
+            //    Excel.Range ObjE = workSheet.get_Range(y[s]+"3", Type.Missing);
+            //    this.Text += Convert.ToString(ObjE.Value2);
+            //    s++;
+            //}
         }
 
         private void button1_Click(object sender, EventArgs e)
