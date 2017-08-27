@@ -22,6 +22,8 @@ namespace sklad
         {
             Product p = new Product();
             p.add(textBox1.Text, textBox2.Text,float.Parse(textBox3.Text), float.Parse(textBox4.Text), Convert.ToInt32(comboBox1.SelectedValue), textBox5.Text, "", dateTimePicker1.Value.ToString(), dateTimePicker2.Value.ToString(), textBox6.Text);
+            MessageBox.Show("Материал добавлен", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            this.Close();
         }
 
         private void button3_Click(object sender, EventArgs e)
