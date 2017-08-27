@@ -23,7 +23,7 @@ namespace sklad
             ConnOpen productsLoad = new ConnOpen();
             SqlDataAdapter adapter = new SqlDataAdapter();
             productsLoad.connection.Open();
-            SqlCommand sqlCom = new SqlCommand("SELECT * FROM dbo.product", productsLoad.connection);
+            SqlCommand sqlCom = new SqlCommand("SELECT product_id, product_kod, product_name, product_price, product_quantity, amaunt, product_unit, product_description, receipt_date, date_of_last_change, location, balans FROM dbo.product", productsLoad.connection);
             productsLoad.connection.Close();
             adapter.SelectCommand = sqlCom;
             DataSet dataset = new DataSet();
