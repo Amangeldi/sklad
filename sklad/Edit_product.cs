@@ -29,6 +29,7 @@ namespace sklad
             }
             Product p = new Product();
             p.update(Uid, textBox1.Text, textBox2.Text, float.Parse(textBox3.Text), float.Parse(textBox4.Text),Convert.ToInt32(comboBox1.SelectedValue), textBox5.Text, "", dateTimePicker1.Value.ToString(), dateTimePicker2.Value.ToString(), textBox6.Text, balans);
+            MessageBox.Show("Материал изменен", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void Edit_product_Load(object sender, EventArgs e)
