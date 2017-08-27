@@ -91,6 +91,8 @@ namespace sklad
                 }
             }
             update_user.connection.Close();
+            MessageBox.Show("Ok", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            this.Close();
         }
     }
 }
