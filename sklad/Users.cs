@@ -44,7 +44,18 @@ namespace sklad
         }
         private void button2_Click(object sender, EventArgs e)
         {
+            User u = new User();
+            bool test = u.test_id(dataGridView1.CurrentRow.Cells[0].Value.ToString());
+            if (test == true)
+            {
+                MessageBox.Show("Пользаватель с таким id не существует или был удален", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
+            }
+            else
+            {
+                u.delete(dataGridView1.CurrentRow.Cells[0].Value.ToString());
+                MessageBox.Show("Удален пользователь " + dataGridView1.CurrentRow.Cells[0].Value.ToString(), "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
     }
 }
