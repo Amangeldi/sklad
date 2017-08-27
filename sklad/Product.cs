@@ -13,11 +13,11 @@ namespace sklad
         public ConnOpen delete_product = new ConnOpen();
         public ConnOpen test_product = new ConnOpen();
         public ConnOpen update_product = new ConnOpen();
-        public void add(string kod, string name, float price, float quantity, int unit, string description, string foto, string receipt_date, string date_of_last_change, string location)
+        public void add(string kod, string name, float price, float quantity, int unit, string description, string foto, string receipt_date, string date_of_last_change, string location, int balans)
         {
             add_product.connection.Open();
             string sql = string.Format("Insert Into Product" +
-                       "(product_kod, product_name, product_price, product_quantity, product_unit, product_description, product_foto, receipt_date, date_of_last_change, location) Values(@product_kod, @product_name, @product_price, @product_quantity, @product_unit, @product_description, @product_foto, @receipt_date, @date_of_last_change, @location)");
+                       "(product_kod, product_name, product_price, product_quantity, product_unit, product_description, product_foto, receipt_date, date_of_last_change, location, balans) Values(@product_kod, @product_name, @product_price, @product_quantity, @product_unit, @product_description, @product_foto, @receipt_date, @date_of_last_change, @location, @balans)");
             using (SqlCommand cmd = new SqlCommand(sql, add_product.connection))
             {
                 cmd.Parameters.AddWithValue("@product_kod", kod);
@@ -30,6 +30,7 @@ namespace sklad
                 cmd.Parameters.AddWithValue("@receipt_date", receipt_date);
                 cmd.Parameters.AddWithValue("@date_of_last_change", date_of_last_change);
                 cmd.Parameters.AddWithValue("@location", location);
+                cmd.Parameters.AddWithValue("@balans", balans);
                 cmd.ExecuteNonQuery();
             }
             add_product.connection.Close();
@@ -61,10 +62,10 @@ namespace sklad
             }
             delete_product.connection.Close();
         }
-        public void update(int id, string kod, string name, float price, float quantity, int unit, string description, string foto, string receipt_date, string date_of_last_change, string location)
+        public void update(int id, string kod, string name, float price, float quantity, int unit, string description, string foto, string receipt_date, string date_of_last_change, string location, int balans)
         {
             update_product.connection.Open();
-            string sql = string.Format("Update Product Set product_kod = "+kod+ " Set product_name = " +name+ " Set product_price = "+price+ " Set product_quantity = "+quantity+ " Set product_unit = "+unit+ " Set product_description = "+description+ " Set product_foto = "+foto+ " Set receipt_date = "+receipt_date+ " Set date_of_last_change = "+date_of_last_change+ "Set location = " +location+" Where product_id = " + id.ToString() + ";");
+            string sql = string.Format("Update Product Set [product_kod] = '"+kod+ "', product_name = N'" +name+ "', [product_price] = '"+price.ToString().Replace(",", ".") + "', [product_quantity] = '"+quantity.ToString().Replace(",", ".") + "', [product_unit] = '"+unit+ "', [product_description] = '"+description+ "', [product_foto] = '"+foto+ "', [receipt_date] = '"+receipt_date+ "', [date_of_last_change] = '"+date_of_last_change+ "', [location] = '" +location+"', [balans] = "+balans+" Where product_id = " + id.ToString() + ";");
             using (SqlCommand cmd = new SqlCommand(sql, update_product.connection))
             {
                 cmd.ExecuteNonQuery();

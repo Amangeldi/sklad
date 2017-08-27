@@ -20,8 +20,13 @@ namespace sklad
 
         private void button2_Click(object sender, EventArgs e)
         {
+            int balans = 0;
+            if(checkBox1.Checked == true)
+            {
+                balans = 1;
+            }
             Product p = new Product();
-            p.add(textBox1.Text, textBox2.Text,float.Parse(textBox3.Text), float.Parse(textBox4.Text), Convert.ToInt32(comboBox1.SelectedValue), textBox5.Text, "", dateTimePicker1.Value.ToString(), dateTimePicker2.Value.ToString(), textBox6.Text);
+            p.add(textBox1.Text, textBox2.Text,float.Parse(textBox3.Text), float.Parse(textBox4.Text), Convert.ToInt32(comboBox1.SelectedValue), textBox5.Text, "", dateTimePicker1.Value.ToString(), dateTimePicker2.Value.ToString(), textBox6.Text, balans);
             MessageBox.Show("Материал добавлен", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Information);
             this.Close();
         }
@@ -36,7 +41,6 @@ namespace sklad
         {
             ConnOpen productLoad = new ConnOpen();
             productLoad.connection.Open();
-            SqlCommand command = new SqlCommand("SELECT * FROM dbo.Unit", productLoad.connection);
             SqlDataAdapter adapter = new SqlDataAdapter("SELECT * FROM dbo.Unit", productLoad.connection);
             DataTable tbl = new DataTable();
             adapter.Fill(tbl);
