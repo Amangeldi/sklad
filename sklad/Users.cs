@@ -23,13 +23,14 @@ namespace sklad
             ConnOpen usersLoad = new ConnOpen();
             SqlDataAdapter adapter = new SqlDataAdapter();
             usersLoad.connection.Open();
-            SqlCommand sqlCom = new SqlCommand("SELECT * FROM dbo.users", usersLoad.connection);
+            SqlCommand sqlCom = new SqlCommand("SELECT user_id, fio, DOB, user_tel, user_mail, role, user_login, place_of_work, position FROM dbo.users", usersLoad.connection);
             usersLoad.connection.Close();
             adapter.SelectCommand = sqlCom;
             DataSet dataset = new DataSet();
             adapter.Fill(dataset);
             dataGridView1.DataSource = dataset.Tables[0];
             adapter.Update(dataset);
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
         }
 
         private void button1_Click(object sender, EventArgs e)
