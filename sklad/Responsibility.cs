@@ -57,7 +57,7 @@ namespace sklad
                 cmd.Parameters.AddWithValue("@location", textBox1.Text);
                 cmd.Parameters.AddWithValue("@product", comboBox2.SelectedValue.ToString());
                 cmd.Parameters.AddWithValue("@product_quantity", textBox2.Text);
-                cmd.Parameters.AddWithValue("@date", DateTime.Now.ToString());
+                cmd.Parameters.AddWithValue("@date", dateTimePicker1.Value.ToString());
                 cmd.Parameters.AddWithValue("@waybill", textBox3.Text);
                 cmd.Parameters.AddWithValue("@traffic", comboBox3.SelectedIndex.ToString());
                 cmd.ExecuteNonQuery();
