@@ -40,7 +40,18 @@ namespace sklad
 
         private void button3_Click(object sender, EventArgs e)
         {
+            User u = new User();
+            bool test = u.test_id(dataGridView1.CurrentRow.Cells[0].Value.ToString());
+            if (test == true)
+            {
+                MessageBox.Show("Материал с таким id не существует или был удален", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
+            }
+            else
+            {
+                Edit_user f = new Edit_user(Convert.ToInt32(dataGridView1.CurrentRow.Cells[0].Value));
+                f.ShowDialog();
+            }
         }
         private void button2_Click(object sender, EventArgs e)
         {

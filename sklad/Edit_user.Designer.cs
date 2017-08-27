@@ -94,8 +94,9 @@
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(88, 39);
             this.button2.TabIndex = 54;
-            this.button2.Text = "Добавить пользователя";
+            this.button2.Text = "Изменить пользователя";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // pictureBox1
             // 
@@ -295,6 +296,7 @@
             this.Controls.Add(this.textBox1);
             this.Name = "Edit_user";
             this.Text = "Edit user";
+            this.Load += new System.EventHandler(this.Edit_user_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

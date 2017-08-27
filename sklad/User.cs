@@ -63,10 +63,10 @@ namespace sklad
             }
             delete_user.connection.Close();
         }
-        public void update(int id, string familija, string imja, string otchestvo, string DOB, string tel, string mail, string login, string password, string foto, int role)
+        public void update(int id, string familija, string imja, string otchestvo, string DOB, string tel, string mail, string login, string password, string foto, int role, string place_of_work, string position)
         {
             update_user.connection.Open();
-            string sql = string.Format("Update User Set user_familija = " + familija + " Set user_imja = " + imja + " Set user_otchestvo = " + otchestvo + " Set DOB = " + DOB + " Set user_tel = " + tel + " Set user_mail = " + mail + " Set user_login = " + login + " Set user_password = " + password + " Set user_foto = " + foto + "Set role = " + role + " Where user_id = " + id.ToString() + ";");
+            string sql = string.Format("Update Users Set user_familija = '" + familija + "', user_imja = '" + imja + "', user_otchestvo = '" + otchestvo + "', DOB = '" + DOB + "', user_tel = '" + tel + "', user_mail = '" + mail + "', user_login = '" + login + "', user_password = '" + password + "', user_foto = '" + foto + "', role = '" + role + "', place_of_work = '"+place_of_work+"', position = '"+position+" Where user_id = " + id.ToString() + ";");
             using (SqlCommand cmd = new SqlCommand(sql, update_user.connection))
             {
                 cmd.ExecuteNonQuery();
