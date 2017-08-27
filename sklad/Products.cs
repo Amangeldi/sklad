@@ -30,6 +30,7 @@ namespace sklad
             adapter.Fill(dataset);
             dataGridView1.DataSource = dataset.Tables[0];
             adapter.Update(dataset);
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
         }
 
         private void button1_Click(object sender, EventArgs e)
