@@ -66,7 +66,7 @@ namespace sklad
         public void update(int id, string familija, string imja, string otchestvo, string DOB, string tel, string mail, string login, string password, string foto, int role, string place_of_work, string position)
         {
             update_user.connection.Open();
-            string sql = string.Format("Update Users Set user_familija = '" + familija + "', user_imja = '" + imja + "', user_otchestvo = '" + otchestvo + "', DOB = '" + DOB + "', user_tel = '" + tel + "', user_mail = '" + mail + "', user_login = '" + login + "', user_password = '" + password + "', user_foto = '" + foto + "', role = '" + role + "', place_of_work = '"+place_of_work+"', position = '"+position+"' Where user_id = " + id.ToString() + ";");
+            string sql = string.Format("Update Users Set user_familija = N'" + familija + "', user_imja = N'" + imja + "', user_otchestvo = N'" + otchestvo + "', DOB = '" + DOB + "', user_tel = '" + tel + "', user_mail = '" + mail + "', user_login = '" + login + "', user_password = '" + password + "', user_foto = '" + foto + "', role = '" + role + "', place_of_work = N'"+place_of_work+"', position = N'"+position+"' Where user_id = " + id.ToString() + ";");
             using (SqlCommand cmd = new SqlCommand(sql, update_user.connection))
             {
                 cmd.ExecuteNonQuery();
