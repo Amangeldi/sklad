@@ -73,15 +73,15 @@
             // 
             this.button3.Location = new System.Drawing.Point(230, 25);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(157, 23);
+            this.button3.Size = new System.Drawing.Size(188, 23);
             this.button3.TabIndex = 3;
-            this.button3.Text = "Назначить ответственного";
+            this.button3.Text = "Оформление прихода/расхода";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(403, 25);
+            this.button4.Location = new System.Drawing.Point(424, 25);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(75, 23);
             this.button4.TabIndex = 4;
@@ -110,7 +110,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(208, 65);
+            this.label2.Location = new System.Drawing.Point(135, 65);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(143, 13);
             this.label2.TabIndex = 7;
