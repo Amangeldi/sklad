@@ -147,6 +147,7 @@
     <Compile Include="Waybill.Designer.cs">
       <DependentUpon>Waybill.cs</DependentUpon>
     </Compile>
+    <Compile Include="WCont.cs" />
     <EmbeddedResource Include="Add_product.resx">
       <DependentUpon>Add_product.cs</DependentUpon>
     </EmbeddedResource>

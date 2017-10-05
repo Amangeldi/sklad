@@ -41,7 +41,7 @@ namespace sklad
             ExcelApp.Rows.RowHeight = 15;
             Excel.Worksheet workSheet = (Excel.Worksheet)ExcelApp.ActiveSheet;
             //-------
-            string sProduct, sUnit, cell, resp = "", fi = "", GJS = "", GJB ="", CJS = "", CJB="", nakl;
+            string sProduct, sUnit, cell, resp = "", fi = "", GJS = "", GJB ="", CJS = "", CJB="", nakl, wayb;
             float product_quantity, price, pValue = 0, rValue = 0, sum, sPrice;
             int girdeji = 0, cykdajyb = 0, cykdajys = 0;
             ConnOpen reportLoad = new ConnOpen();
@@ -65,13 +65,16 @@ namespace sklad
             SqlDataReader readerUnit;
             SqlCommand commandT;
             SqlDataReader readerT;
-            SqlCommand CQPU = new SqlCommand("SELECT DISTINCT waybill FROM dbo.Responsibility WHERE traffic = '0' AND date > '" + dateTimePicker1.Value.ToShortDateString() + "' AND date < '" + dateTimePicker2.Value.ToShortDateString() + "'", userLoad.connection);
+            SqlCommand CQPU = new SqlCommand("SELECT DISTINCT responsible FROM dbo.Responsibility WHERE traffic = '0' AND date > '" + dateTimePicker1.Value.ToShortDateString() + "' AND date < '" + dateTimePicker2.Value.ToShortDateString() + "'", userLoad.connection);
             SqlDataReader RQPU = CQPU.ExecuteReader();
             SqlCommand CQPU2;
             SqlDataReader RQPU2;
             SqlCommand CUP;
             SqlDataReader RUP;
             //Создали команды и датаридеры
+            ConnOpen conx = new ConnOpen();
+            SqlCommand CX;
+            SqlDataReader CR;
             int q = 7, u, t=4;
             while (RQPU.Read())
             {
@@ -93,18 +96,30 @@ namespace sklad
                 t = 4;
                 userLoad2.connection.Close();
                 userLoad2.connection.Open();
-                CQPU2 = new SqlCommand("SELECT * FROM dbo.Responsibility WHERE waybill = '" + RQPU["waybill"].ToString() + "' AND date > '" + dateTimePicker1.Value.ToShortDateString() + "' AND date < '" + dateTimePicker2.Value.ToShortDateString()+"' AND traffic='0'", userLoad2.connection);
+                CQPU2 = new SqlCommand("SELECT waybill FROM dbo.Responsibility WHERE responsible = '" + RQPU["responsible"].ToString() + "' AND date > '" + dateTimePicker1.Value.ToShortDateString() + "' AND date < '" + dateTimePicker2.Value.ToShortDateString()+"' AND traffic='0'", userLoad2.connection);
                 RQPU2 = CQPU2.ExecuteReader();
-                RQPU2.Read();
-                resp = RQPU2["responsible"].ToString();
-                CUP = new SqlCommand("SELECT * FROM dbo.Users WHERE user_id = '" + resp +"'", userLoad3.connection);
+                CUP = new SqlCommand("SELECT * FROM dbo.Users WHERE user_id = '" + RQPU["responsible"].ToString() + "'", userLoad3.connection);
                 RUP = CUP.ExecuteReader();
                 RUP.Read();
                 fi = RUP["fio"].ToString();
                 fi = fi.Remove(fi.IndexOf(' ') + 2);
-                ExcelApp.Cells[3, q] =RUP["place_of_work"].ToString()+" " + fi + " Nakl № " + RQPU["waybill"].ToString();
+                int xx = 0;
+                List<string> wc = new List<string>();
+                while (RQPU2.Read())
+                {
+                    wc.Add(RQPU2["waybill"].ToString());
+                }
+                wayb = "";
+                foreach(string a in wc)
+                {
+                    wayb += a;
+                    int k = 1;
+                    if (k != wc.Count())
+                        wayb += ", ";
+                    else k++;
+                }
+                ExcelApp.Cells[3, q] = RUP["place_of_work"].ToString() + " " + fi + " Nakl № " +wayb;
                 RUP.Close();
-                RQPU2.Close();
                 userLoad2.connection.Close();
                 cell = c[q - 1] + "4:" + c[q - 1] + "26";
                 userLoad2.connection.Close();
@@ -453,15 +468,25 @@ namespace sklad
                     j = j + 2;
                     Excel.Range ObjE = workSheet.get_Range(y[s] + "3", Type.Missing);
                     nakl = Convert.ToString(ObjE.Value2);
-                    nakl = no(nakl).ToString();
-                    cnakl = new SqlCommand("SELECT * FROM dbo.Responsibility WHERE product = '" + product + "' AND waybill = '"+nakl+"'", nakladnoj.connection);
-                    rnakl = cnakl.ExecuteReader();
-                    rnakl.Read();
-                    if(rnakl.HasRows == true)
+                    nakl = nakl.Substring(nakl.IndexOf("№") + 2);
+                    // разделяем его на отдельные элементы, удаляя запятые и пробелы
+                    string[] elements = nakl.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
+                    int[] numbers = Array.ConvertAll(elements, r => int.Parse(r)); // конвертируем в массив int
+                    int v = 0;
+                    foreach (int f in numbers)
                     {
-                        ExcelApp.Cells[n, d] = rnakl["product_quantity"].ToString();
+                        cnakl = new SqlCommand("SELECT * FROM dbo.Responsibility WHERE product = '" + product + "' AND waybill = '" + numbers[v] + "'", nakladnoj.connection);
+                        v++;
+                        rnakl = cnakl.ExecuteReader();
+                        rnakl.Read();
+                        if (rnakl.HasRows == true)
+                        {
+                            ExcelApp.Cells[n, d] = rnakl["product_quantity"].ToString();
+                        }
+                        rnakl.Close();
                     }
-                    rnakl.Close();
+                    
                     s++;
                 }
                 s++;
