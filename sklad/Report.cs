@@ -214,12 +214,15 @@ namespace sklad
             userLoad.connection.Open();
             userLoad2.connection.Open();
             userLoad3.connection.Open();
-            SqlCommand CQRU = new SqlCommand("SELECT DISTINCT waybill FROM dbo.Responsibility WHERE traffic = '1' AND date > '" + dateTimePicker1.Value.ToShortDateString() + "' AND date < '" + dateTimePicker2.Value.ToShortDateString() + "'", userLoad.connection);
+            SqlCommand CQRU = new SqlCommand("SELECT DISTINCT responsible FROM dbo.Responsibility WHERE traffic = '1' AND date > '" + dateTimePicker1.Value.ToShortDateString() + "' AND date < '" + dateTimePicker2.Value.ToShortDateString() + "'", userLoad.connection);
             SqlDataReader RQRU = CQRU.ExecuteReader();
             SqlCommand CQRU2;
             SqlDataReader RQRU2;
             SqlCommand CUR;
             SqlDataReader RUR;
+            ConnOpen conx2 = new ConnOpen();
+            SqlCommand CX2;
+            SqlDataReader CR2;
             while (RQRU.Read())
             {
                 cell = gh[(girdeji - 5) / 2 + 1 + cykdajys];
@@ -241,18 +244,30 @@ namespace sklad
                 cell = c[q - 1] + "4:" + c[q - 1] + "26";
                 userLoad2.connection.Close();
                 userLoad2.connection.Open();
-                CQRU2 = new SqlCommand("SELECT * FROM dbo.Responsibility WHERE waybill = '" + RQRU["waybill"].ToString() + "'", userLoad2.connection);
+                CQRU2 = new SqlCommand("SELECT waybill FROM dbo.Responsibility WHERE responsible = '" + RQRU["responsible"].ToString() + "' AND date > '" + dateTimePicker1.Value.ToShortDateString() + "' AND date < '" + dateTimePicker2.Value.ToShortDateString() + "' AND traffic='1'", userLoad2.connection);
                 RQRU2 = CQRU2.ExecuteReader();
-                RQRU2.Read();
-                resp = RQRU2["responsible"].ToString();
-                CUR = new SqlCommand("SELECT * FROM dbo.Users WHERE user_id = '" + resp + "'", userLoad3.connection);
+                CUR = new SqlCommand("SELECT * FROM dbo.Users WHERE user_id = '" + RQRU["responsible"].ToString() + "'", userLoad3.connection);
                 RUR = CUR.ExecuteReader();
                 RUR.Read();
                 fi = RUR["fio"].ToString();
                 fi = fi.Remove(fi.IndexOf(' ') + 2);
-                ExcelApp.Cells[3, q] = RUR["place_of_work"].ToString() + " " + fi + " Nakl № " + RQRU["waybill"].ToString();
+                int yy = 0;
+                List<string> wc2 = new List<string>();
+                while (RQRU2.Read())
+                {
+                    wc2.Add(RQRU2["waybill"].ToString());
+                }
+                wayb = "";
+                foreach (string a in wc2)
+                {
+                    wayb += a;
+                    int k = 1;
+                    if (k != wc2.Count())
+                        wayb += ", ";
+                    else k++;
+                }
+                ExcelApp.Cells[3, q] = RUR["place_of_work"].ToString() + " " + fi + " Nakl № " + wayb;
                 RUR.Close();
-                RQRU2.Close();
                 userLoad2.connection.Close();
                 workSheet.get_Range(cell).Borders[Excel.XlBordersIndex.xlEdgeLeft].LineStyle = Excel.XlLineStyle.xlContinuous;
                 workSheet.get_Range(cell).Borders[Excel.XlBordersIndex.xlEdgeTop].LineStyle = Excel.XlLineStyle.xlContinuous;
@@ -497,15 +512,24 @@ namespace sklad
                     j = j + 2;
                     Excel.Range ObjE = workSheet.get_Range(y[s] + "3", Type.Missing);
                     nakl = Convert.ToString(ObjE.Value2);
-                    nakl = no(nakl).ToString();
-                    cnakl = new SqlCommand("SELECT * FROM dbo.Responsibility WHERE product = '" + product + "' AND waybill = '" + nakl + "'", nakladnoj.connection);
-                    rnakl = cnakl.ExecuteReader();
-                    rnakl.Read();
-                    if (rnakl.HasRows == true)
+                    nakl = nakl.Substring(nakl.IndexOf("№") + 2);
+                    // разделяем его на отдельные элементы, удаляя запятые и пробелы
+                    string[] elements = nakl.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
+                    int[] numbers = Array.ConvertAll(elements, r => int.Parse(r)); // конвертируем в массив int
+                    int v = 0;
+                    foreach (int f in numbers)
                     {
-                        ExcelApp.Cells[n, d] = rnakl["product_quantity"].ToString();
+                        cnakl = new SqlCommand("SELECT * FROM dbo.Responsibility WHERE product = '" + product + "' AND waybill = '" + numbers[v] + "'", nakladnoj.connection);
+                        v++;
+                        rnakl = cnakl.ExecuteReader();
+                        rnakl.Read();
+                        if (rnakl.HasRows == true)
+                        {
+                            ExcelApp.Cells[n, d] = rnakl["product_quantity"].ToString();
+                        }
+                        rnakl.Close();
                     }
-                    rnakl.Close();
                     s++;
                 }
                 readerT.Close();
