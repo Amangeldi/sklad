@@ -64,7 +64,7 @@ namespace sklad
             }
             add_responsible.connection.Close();
             update_product.connection.Open();
-            string sqlProd = string.Format("Update Product Set product_flag = '1' WHERE product_id = '" + comboBox2.SelectedValue.ToString()+"' " );
+            string sqlProd = string.Format("Update Product Set product_flag = '1', [last_date] = '" + dateTimePicker1.Value.ToString() + "' WHERE product_id = '" + comboBox2.SelectedValue.ToString()+"' " );
             using (SqlCommand cmd = new SqlCommand(sqlProd, update_product.connection))
             {
                 cmd.ExecuteNonQuery();

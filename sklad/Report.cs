@@ -59,7 +59,7 @@ namespace sklad
             userLoad3.connection.Open();
             tLoad.connection.Open();
             //Открыли все коннекты
-            SqlCommand commandProduct = new SqlCommand("SELECT * FROM dbo.Product WHERE product_flag = '" + 1 + "'", productLoad.connection);
+            SqlCommand commandProduct = new SqlCommand("SELECT * FROM dbo.Product WHERE product_flag = '" + 1 + "' AND last_date > '" + dateTimePicker1.Value.ToShortDateString() + "' AND last_date < '" + dateTimePicker2.Value.ToShortDateString() + "'", productLoad.connection);
             SqlDataReader readerProduct = commandProduct.ExecuteReader();
             SqlCommand commandUnit;
             SqlDataReader readerUnit;
