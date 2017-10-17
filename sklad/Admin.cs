@@ -37,7 +37,16 @@ namespace sklad
             label1.Text = "Здравствуйте " + FIO;
             admLoad.connection.Close();
             //-------
-            
+            ConnOpen waybLoad = new ConnOpen();
+            waybLoad.connection.Open();
+            SqlDataAdapter adapter = new SqlDataAdapter("SELECT DISTINCT waybill FROM dbo.Responsibility WHERE traffic = '0'", waybLoad.connection);
+            DataTable tbl = new DataTable();
+            adapter.Fill(tbl);
+
+            comboBox1.DataSource = tbl;
+            comboBox1.DisplayMember = "waybill";
+            comboBox1.ValueMember = "waybill";
+            waybLoad.connection.Close();
         }
 
         private void button1_Click_1(object sender, EventArgs e)
@@ -66,22 +75,51 @@ namespace sklad
 
         private void button5_Click(object sender, EventArgs e)
         {
-            ConnOpen waybLoad = new ConnOpen();
-            waybLoad.connection.Open();
-            SqlDataAdapter adapter = new SqlDataAdapter("SELECT DISTINCT waybill FROM dbo.Responsibility WHERE traffic = '"+ comboBox2.SelectedIndex.ToString()+"'", waybLoad.connection);
-            DataTable tbl = new DataTable();
-            adapter.Fill(tbl);
-
-            comboBox1.DataSource = tbl;
-            comboBox1.DisplayMember = "waybill";
-            comboBox1.ValueMember = "waybill";
-            waybLoad.connection.Close();
+            
         }
 
         private void button6_Click(object sender, EventArgs e)
         {
-            Waybill f = new Waybill(comboBox1.SelectedValue.ToString(), comboBox2.SelectedIndex.ToString());
+            Waybill f;
+            if(radioButton1.Checked==true)
+            {
+                f = new Waybill(comboBox1.SelectedValue.ToString(), "0");
+            }
+            else
+            {
+                f = new Waybill(comboBox1.SelectedValue.ToString(), "1");
+            }
             f.ShowDialog();
+        }
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+            if(radioButton1.Checked == true)
+            {
+                ConnOpen waybLoad = new ConnOpen();
+                waybLoad.connection.Open();
+                SqlDataAdapter adapter = new SqlDataAdapter("SELECT DISTINCT waybill FROM dbo.Responsibility WHERE traffic = '0'", waybLoad.connection);
+                DataTable tbl = new DataTable();
+                adapter.Fill(tbl);
+
+                comboBox1.DataSource = tbl;
+                comboBox1.DisplayMember = "waybill";
+                comboBox1.ValueMember = "waybill";
+                waybLoad.connection.Close();
+            }
+            else
+            {
+                ConnOpen waybLoad = new ConnOpen();
+                waybLoad.connection.Open();
+                SqlDataAdapter adapter = new SqlDataAdapter("SELECT DISTINCT waybill FROM dbo.Responsibility WHERE traffic = '1'", waybLoad.connection);
+                DataTable tbl = new DataTable();
+                adapter.Fill(tbl);
+
+                comboBox1.DataSource = tbl;
+                comboBox1.DisplayMember = "waybill";
+                comboBox1.ValueMember = "waybill";
+                waybLoad.connection.Close();
+            }
         }
     }
 }

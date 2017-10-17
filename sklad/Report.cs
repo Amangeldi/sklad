@@ -467,11 +467,11 @@ namespace sklad
                 {
                     if (readerT["traffic"].ToString() == "0" && readerT.HasRows == true)
                     {
-                        pValue += Convert.ToInt32(readerT["product_quantity"]);
+                        pValue += float.Parse(readerT["product_quantity"].ToString());
                     }
                     if (readerT["traffic"].ToString() == "1" && readerT.HasRows == true)
                     {
-                        rValue += Convert.ToInt32(readerT["product_quantity"]);
+                        rValue += float.Parse(readerT["product_quantity"].ToString());
                     }
                 }
                 int s = 0;
