@@ -14,16 +14,18 @@ namespace sklad
     public partial class Otchet : Form
     {
         public string sProduct = " ", report = "Материал ", sTraffic =" " ;
+        public int product;
         public Otchet(string _product)
         {
             InitializeComponent();
             this.sProduct = _product;
+            this.product =Convert.ToInt32(_product);
         }
 
         private void Otchet_Load(object sender, EventArgs e)
         {
-            int responsible, product;
-            string sResponsible, location, date, dateChas, dateMin, waybill;
+            int responsible;
+            string sResponsible, location, date, dateChas, dateMin, waybill, pName;
             float product_quantity;
             ConnOpen proLoad = new ConnOpen();
             ConnOpen resLoad = new ConnOpen();
@@ -31,10 +33,10 @@ namespace sklad
             proLoad.connection.Open();
             resLoad.connection.Open();
             userLoad.connection.Open();
-            SqlCommand commandPro = new SqlCommand("SELECT * FROM dbo.Product WHERE product_name = '"+sProduct+"'",proLoad.connection );
+            SqlCommand commandPro = new SqlCommand("SELECT * FROM dbo.Product WHERE product_id = '"+sProduct+"'",proLoad.connection );
             SqlDataReader readerPro = commandPro.ExecuteReader();
             readerPro.Read();
-            product = Convert.ToInt32(readerPro["product_id"]);
+            pName = readerPro["product_name"].ToString();
             product_quantity = Convert.ToInt32(readerPro["product_quantity"]);
             readerPro.Close();
             SqlCommand commandRes = new SqlCommand("SELECT * FROM dbo.Responsibility WHERE product = '"+product+"'", resLoad.connection);
@@ -64,7 +66,7 @@ namespace sklad
                     sTraffic = "был отправлен к ";
                 }
                 readerUser.Close();
-                report = "Материал " + sProduct+" "+sTraffic+sResponsible+" со склада "+location+" "+ date+" "+dateChas+" часов "+dateMin+" минут на основании накладной номер " +waybill;
+                report = "Материал " + pName+" "+sTraffic+sResponsible+" со склада "+location+" "+ date+" "+dateChas+" часов "+dateMin+" минут на основании накладной номер " +waybill;
                 label1.Text += report+"\n";
             }
             proLoad.connection.Close();

@@ -640,6 +640,11 @@ namespace sklad
             SqlCommand commandT;
             SqlDataReader readerT;
             //Создали команды и датаридеры
+            var columnPId = new DataGridViewColumn();
+            columnPId.HeaderText = "id";
+            columnPId.Name = "id";
+            columnPId.CellTemplate = new DataGridViewTextBoxCell();
+
             var columnPName = new DataGridViewColumn();
             columnPName.HeaderText = "Название";
             columnPName.Name = "productName";
@@ -680,6 +685,7 @@ namespace sklad
             priceSumma.Name = "sumPrice";
             priceSumma.CellTemplate = new DataGridViewTextBoxCell();
 
+            dataGridView1.Columns.Add(columnPId);
             dataGridView1.Columns.Add(columnPName);
             dataGridView1.Columns.Add(columnPUnit);
             dataGridView1.Columns.Add(ostatok);
@@ -719,7 +725,7 @@ namespace sklad
                 readerT.Close();
                 sum = product_quantity + pValue - rValue;
                 sPrice = sum * price;
-                dataGridView1.Rows.Add(sProduct, sUnit, product_quantity, price, pValue, rValue, sum, sPrice);
+                dataGridView1.Rows.Add(product, sProduct, sUnit, product_quantity, price, pValue, rValue, sum, sPrice);
                 pValue = 0;
                 rValue = 0;
             }
